@@ -1,0 +1,8 @@
+#.idea/を除外、Project-level dictionaryは追跡する
+/.idea/*
+!/.idea/dictionaries/
+/.idea/dictionaries/*
+!/.idea/dictionaries/*.xml
+
+/.gradle/
+/build/
