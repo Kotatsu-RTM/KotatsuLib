@@ -2,6 +2,7 @@ group = rootProject.group.toString() + ".core"
 
 dependencies {
     api(kotlin("stdlib"))
+    api("io.arrow-kt:arrow-core:1.1.5")
 }
 
 tasks {
@@ -23,6 +24,8 @@ tasks {
     }
 
     jar {
-        configurations.api.get().copy().apply { isCanBeResolved = true }.map { if (it.isDirectory) it else zipTree(it) }
+        from(
+            configurations.api.get().apply { isCanBeResolved = true }.map { if (it.isDirectory) it else zipTree(it) }
+        )
     }
 }
