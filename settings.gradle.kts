@@ -10,4 +10,4 @@ pluginManagement {
     }
 }
 
-include("api")
+include("api", "mc1_12_2")
