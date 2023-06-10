@@ -5,4 +5,4 @@
 !/.idea/dictionaries/*.xml
 
 /.gradle/
-/build/
+build/
