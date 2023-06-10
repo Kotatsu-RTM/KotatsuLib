@@ -1,4 +1,4 @@
-group = rootProject.name + ".core"
+group = rootProject.group.toString() + ".core"
 
 dependencies {
     api(kotlin("stdlib"))
