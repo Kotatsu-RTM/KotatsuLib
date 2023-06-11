@@ -1,0 +1,8 @@
+[
+  {
+    "modid": "@modId@",
+    "name": "@modName@",
+    "version": "@modVersion@",
+    "mcversion": "1.12.2"
+  }
+]
