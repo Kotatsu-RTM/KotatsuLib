@@ -13,6 +13,7 @@ buildscript {
 apply(plugin = "net.minecraftforge.gradle")
 
 dependencies {
+    api(project(":core"))
     api(project(":api"))
 
     add("minecraft", "net.minecraftforge:forge:1.12.2-14.23.5.2860")
