@@ -38,5 +38,6 @@ internal object KotatsuLibConfigImpl: KotatsuLibConfig<Configuration>(ConfigType
     fun onConfigChanged(event: ConfigChangedEvent.OnConfigChangedEvent) {
         if (event.modID != KotatsuLib.MOD_ID) return
         nativeInstance.save()
+        KotatsuLib.updateDebugOutputState(KotatsuLibConfigImpl)
     }
 }
