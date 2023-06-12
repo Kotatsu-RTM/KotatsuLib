@@ -3,6 +3,7 @@ group = rootProject.group.toString() + ".api"
 dependencies {
     api(kotlin("stdlib"))
     api("io.arrow-kt:arrow-core:1.1.5")
+    api("dev.siro256.forgelib:rtm-glsl:0.1.0-SNAPSHOT")
 
     compileOnly("org.lwjgl.lwjgl:lwjgl:2.9.3")
 }
