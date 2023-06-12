@@ -5,6 +5,8 @@ group = rootProject.group.toString() + ".core"
 
 dependencies {
     api(project(":api"))
+
+    implementation("org.lwjgl.lwjgl:lwjgl:2.9.3")
 }
 
 tasks {
