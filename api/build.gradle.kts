@@ -3,6 +3,8 @@ group = rootProject.group.toString() + ".api"
 dependencies {
     api(kotlin("stdlib"))
     api("io.arrow-kt:arrow-core:1.1.5")
+
+    implementation("org.lwjgl.lwjgl:lwjgl:2.9.3")
 }
 
 tasks {
