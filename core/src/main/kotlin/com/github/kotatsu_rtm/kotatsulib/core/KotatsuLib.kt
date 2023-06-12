@@ -17,10 +17,12 @@ object KotatsuLib {
 
     fun updateDebugOutputState(config: KotatsuLibConfig<*>) {
         if (!config.enableOpenGLDebugOutput.get().getOrDefault(config.enableOpenGLDebugOutput.default)) {
+            logger.info("Disable OpenGL debug output")
             GL11.glDisable(GL43.GL_DEBUG_OUTPUT)
             return
         }
 
+        logger.info("Enable OpenGL debug output")
         GL11.glEnable(GL43.GL_DEBUG_OUTPUT)
         GL43.glDebugMessageControl(GL11.GL_DONT_CARE, GL11.GL_DONT_CARE, GL11.GL_DONT_CARE, null, true)
         GL43.glDebugMessageCallback(
