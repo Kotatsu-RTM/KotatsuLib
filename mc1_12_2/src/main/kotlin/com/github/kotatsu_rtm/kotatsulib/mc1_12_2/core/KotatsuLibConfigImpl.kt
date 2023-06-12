@@ -13,7 +13,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.io.File
 
-internal object KotatsuLibConfigImpl: KotatsuLibConfig<Configuration>(ConfigTypeImpl), IModGuiFactory {
+internal object KotatsuLibConfigImpl : KotatsuLibConfig<Configuration>(ConfigTypeImpl), IModGuiFactory {
     override val nativeInstance = Configuration(File(relativePathFromGameDirectory))
 
     override fun initialize(minecraftInstance: Minecraft?) {

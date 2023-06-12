@@ -14,7 +14,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         config: Config<Configuration>,
         parent: Optional<ConfigType.Category>,
         key: kotlin.String,
-        comment: Optional<kotlin.String>
+        comment: Optional<kotlin.String>,
     ) = Category(config, parent, key, comment)
 
     override fun createBooleanProperty(
@@ -22,7 +22,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         parent: ConfigType.Category,
         key: kotlin.String,
         default: kotlin.Boolean,
-        comment: Optional<kotlin.String>
+        comment: Optional<kotlin.String>,
     ) = Boolean(config, parent, key, default, comment)
 
     override fun createIntProperty(
@@ -38,7 +38,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         parent: ConfigType.Category,
         key: kotlin.String,
         default: kotlin.Float,
-        comment: Optional<kotlin.String>
+        comment: Optional<kotlin.String>,
     ) = Float(config, parent, key, default, comment)
 
     override fun createStringProperty(
@@ -46,7 +46,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         parent: ConfigType.Category,
         key: kotlin.String,
         default: kotlin.String,
-        comment: Optional<kotlin.String>
+        comment: Optional<kotlin.String>,
     ) = String(config, parent, key, default, comment)
 
     class Category(
