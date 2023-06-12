@@ -1,6 +1,7 @@
 package com.github.kotatsu_rtm.kotatsulib.mc1_12_2.core
 
 import com.github.kotatsu_rtm.kotatsulib.core.KotatsuLib
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.Mod.EventHandler
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -10,6 +11,8 @@ import org.apache.logging.log4j.LogManager
 class KotatsuLibImpl {
     @EventHandler
     fun onFMLInit(@Suppress("UNUSED_PARAMETER") event: FMLInitializationEvent) {
+        MinecraftForge.EVENT_BUS.register(KotatsuLibConfigImpl)
+
         LogManager.getLogger().info("""
             Initialize KotatsuLib
             categoryForDevelopers: ${KotatsuLibConfigImpl.categoryForDevelopers}
