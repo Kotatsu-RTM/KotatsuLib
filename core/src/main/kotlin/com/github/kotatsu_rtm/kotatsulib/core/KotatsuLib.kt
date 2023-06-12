@@ -13,6 +13,8 @@ object KotatsuLib {
     const val MOD_NAME = "@modName@"
     const val MOD_VERSION = "@modVersion@"
 
+    val logger = LogManager.getLogger(MOD_NAME)
+
     fun updateDebugOutputState(config: KotatsuLibConfig<*>) {
         if (!config.enableOpenGLDebugOutput.get().getOrDefault(config.enableOpenGLDebugOutput.default)) {
             GL11.glDisable(GL43.GL_DEBUG_OUTPUT)
