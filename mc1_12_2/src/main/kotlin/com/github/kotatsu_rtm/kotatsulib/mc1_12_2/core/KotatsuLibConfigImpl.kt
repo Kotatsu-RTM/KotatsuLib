@@ -13,31 +13,33 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.io.File
 
-internal object KotatsuLibConfigImpl : KotatsuLibConfig<Configuration>(ConfigTypeImpl), IModGuiFactory {
+internal object KotatsuLibConfigImpl : KotatsuLibConfig<Configuration>(ConfigTypeImpl) {
     override val nativeInstance = Configuration(File(relativePathFromGameDirectory))
-
-    override fun initialize(minecraftInstance: Minecraft?) {
-        //Do nothing
-    }
-
-    override fun hasConfigGui() = true
-
-    override fun createConfigGui(parentScreen: GuiScreen) =
-        GuiConfig(
-            parentScreen,
-            ConfigElement(nativeInstance.getCategory(categoryForDevelopers.name)).childElements,
-            KotatsuLib.MOD_ID,
-            false,
-            false,
-            relativePathFromGameDirectory
-        )
-
-    override fun runtimeGuiCategories(): Set<IModGuiFactory.RuntimeOptionCategoryElement> = setOf()
 
     @SubscribeEvent
     fun onConfigChanged(event: ConfigChangedEvent.OnConfigChangedEvent) {
         if (event.modID != KotatsuLib.MOD_ID) return
         nativeInstance.save()
         KotatsuLib.updateDebugOutputState(KotatsuLibConfigImpl)
+    }
+
+    class Gui : IModGuiFactory {
+        override fun initialize(minecraftInstance: Minecraft?) {
+            //Do nothing
+        }
+
+        override fun hasConfigGui() = true
+
+        override fun createConfigGui(parentScreen: GuiScreen) =
+            GuiConfig(
+                parentScreen,
+                ConfigElement(nativeInstance.getCategory(categoryForDevelopers.name)).childElements,
+                KotatsuLib.MOD_ID,
+                false,
+                false,
+                relativePathFromGameDirectory
+            )
+
+        override fun runtimeGuiCategories(): Set<IModGuiFactory.RuntimeOptionCategoryElement> = setOf()
     }
 }
