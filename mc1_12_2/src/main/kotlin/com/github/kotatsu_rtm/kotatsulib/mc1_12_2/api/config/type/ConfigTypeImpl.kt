@@ -2,6 +2,7 @@ package com.github.kotatsu_rtm.kotatsulib.mc1_12_2.api.config.type
 
 import com.github.kotatsu_rtm.kotatsulib.api.config.Config
 import com.github.kotatsu_rtm.kotatsulib.api.config.ConfigType
+import net.minecraftforge.common.config.ConfigCategory
 import net.minecraftforge.common.config.Configuration
 import net.minecraftforge.common.config.Property
 import java.util.*
@@ -54,7 +55,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         key: kotlin.String,
         comment: Optional<kotlin.String>,
     ) : ConfigType.Category(parent, key, comment) {
-        val nativeInstance =
+        val nativeInstance: ConfigCategory =
             config.nativeInstance.getCategory(name)
                 .apply {
                     setLanguageKey(this@Category.languageKey)
@@ -93,7 +94,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         default: kotlin.Int,
         comment: Optional<kotlin.String>,
     ) : ConfigType.Int(parent, key, default, comment) {
-        val nativeInstance =
+        val nativeInstance: Property =
             config.nativeInstance.get(parent.name, key.split(".").last(), default, comment.getOrNull())
                 .apply {
                     languageKey = this@Int.languageKey
@@ -116,7 +117,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         default: kotlin.Float,
         comment: Optional<kotlin.String>,
     ) : ConfigType.Float(parent, key, default, comment) {
-        val nativeInstance =
+        val nativeInstance: Property =
             config.nativeInstance.get(parent.name, key.split(".").last(), default.toDouble(), comment.getOrNull())
                 .apply {
                     languageKey = this@Float.languageKey
@@ -139,7 +140,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         default: kotlin.String,
         comment: Optional<kotlin.String>,
     ) : ConfigType.String(parent, key, default, comment) {
-        val nativeInstance =
+        val nativeInstance: Property =
             config.nativeInstance.get(parent.name, key.split(".").last(), default, comment.getOrNull())
                 .apply {
                     languageKey = this@String.languageKey
