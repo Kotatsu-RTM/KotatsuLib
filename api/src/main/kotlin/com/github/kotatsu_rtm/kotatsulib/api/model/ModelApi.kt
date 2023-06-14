@@ -8,6 +8,7 @@ import java.util.*
 
 abstract class ModelApi(nativeObjects: Map<String, List<NativeFaceWrapper>>) {
     private val objects: List<ModelObject>
+
     @Suppress("MemberVisibilityCanBePrivate")
     val vbo: VBO
 
@@ -17,7 +18,7 @@ abstract class ModelApi(nativeObjects: Map<String, List<NativeFaceWrapper>>) {
             objectNames
                 .mapNotNull { name -> objects.firstOrNull { it.name == name } }
                 .flatMap { it.materialIndicesPair.entries }
-                .let {entries ->
+                .let { entries ->
                     val mergedMap = mutableMapOf<Int, MutableList<Triple<Int, Int, Int>>>()
                     entries.forEach {
                         mergedMap

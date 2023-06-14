@@ -28,14 +28,16 @@ object KotatsuLib {
         GL43.glDebugMessageControl(GL11.GL_DONT_CARE, GL11.GL_DONT_CARE, GL11.GL_DONT_CARE, null, true)
         GL43.glDebugMessageCallback(
             KHRDebugCallback { source, type, id, severity, message ->
-                LogManager.getLogger().debug("""
-                        KHRDebugCallBack:
-                        source: ${DebugSource.values().first { it.constant == source }}
-                        type: ${DebugType.values().first { it.constant == type }}
-                        id: $id
-                        severity: ${DebugSeverity.values().first { it.constant == severity }}
-                        message: $message
-                    """.trimIndent())
+                LogManager.getLogger().debug(
+                    """
+                    KHRDebugCallBack:
+                    source: ${DebugSource.values().first { it.constant == source }}
+                    type: ${DebugType.values().first { it.constant == type }}
+                    id: $id
+                    severity: ${DebugSeverity.values().first { it.constant == severity }}
+                    message: $message
+                    """.trimIndent()
+                )
             }
         )
     }

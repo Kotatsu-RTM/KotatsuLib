@@ -22,11 +22,12 @@ abstract class KotatsuLibConfig<T : Any>(configType: ConfigType<T>) : Config<T> 
             categoryForDevelopers,
             "$KEY_PROPERTY_BASE.enable_opengl_debug_output",
             false,
-            Optional.of("""
+            Optional.of(
+                """
                 Enable OpenGL debug output (known as KHR_debug).
                 This is a convenient method for debugging OpenGL things.
                 e.g. when you writing a new shader, picking up errors and log to the Minecraft game output.
-            """.trimIndent()
+                """.trimIndent()
             )
         )
     }
