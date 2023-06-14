@@ -55,6 +55,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         key: kotlin.String,
         comment: Optional<kotlin.String>,
     ) : ConfigType.Category(parent, key, comment) {
+        @Suppress("unused")
         val nativeInstance: ConfigCategory =
             config.nativeInstance.getCategory(name)
                 .apply {
@@ -71,6 +72,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         default: kotlin.Boolean,
         comment: Optional<kotlin.String>,
     ) : ConfigType.Boolean(parent, key, default, comment) {
+        @Suppress("MemberVisibilityCanBePrivate")
         val nativeInstance: Property =
             config.nativeInstance.get(parent.name, key.split(".").last(), default, comment.getOrNull())
                 .apply {
@@ -94,6 +96,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         default: kotlin.Int,
         comment: Optional<kotlin.String>,
     ) : ConfigType.Int(parent, key, default, comment) {
+        @Suppress("MemberVisibilityCanBePrivate")
         val nativeInstance: Property =
             config.nativeInstance.get(parent.name, key.split(".").last(), default, comment.getOrNull())
                 .apply {
@@ -117,6 +120,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         default: kotlin.Float,
         comment: Optional<kotlin.String>,
     ) : ConfigType.Float(parent, key, default, comment) {
+        @Suppress("MemberVisibilityCanBePrivate")
         val nativeInstance: Property =
             config.nativeInstance.get(parent.name, key.split(".").last(), default.toDouble(), comment.getOrNull())
                 .apply {
@@ -140,6 +144,7 @@ object ConfigTypeImpl : ConfigType<Configuration>() {
         default: kotlin.String,
         comment: Optional<kotlin.String>,
     ) : ConfigType.String(parent, key, default, comment) {
+        @Suppress("MemberVisibilityCanBePrivate")
         val nativeInstance: Property =
             config.nativeInstance.get(parent.name, key.split(".").last(), default, comment.getOrNull())
                 .apply {

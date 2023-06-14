@@ -8,8 +8,10 @@ import java.util.*
 
 abstract class ModelApi(nativeObjects: Map<String, List<NativeFaceWrapper>>) {
     private val objects: List<ModelObject>
+    @Suppress("MemberVisibilityCanBePrivate")
     val vbo: VBO
 
+    @Suppress("unused")
     fun generateDrawGroup(vararg objectNames: String): DrawGroup {
         val combinedMaterialIndicesPair =
             objectNames
@@ -28,6 +30,7 @@ abstract class ModelApi(nativeObjects: Map<String, List<NativeFaceWrapper>>) {
         return DrawGroup(combinedMaterialIndicesPair)
     }
 
+    @Suppress("unused")
     fun getObject(name: String) = Optional.ofNullable(objects.firstOrNull { it.name == name })
 
     init {

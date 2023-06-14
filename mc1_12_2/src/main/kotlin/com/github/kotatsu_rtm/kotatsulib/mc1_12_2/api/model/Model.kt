@@ -5,6 +5,7 @@ import com.github.kotatsu_rtm.kotatsulib.api.model.native.NativeFaceWrapper
 import dev.siro256.forgelib.rtm_glsl.format.VertexFormat
 import jp.ngt.ngtlib.renderer.model.GroupObject
 
+@Suppress("unused")
 abstract class Model(groupObjects: List<GroupObject>) : ModelApi(transformGroupObjects(groupObjects)) {
     companion object {
         private fun transformGroupObjects(groupObjects: List<GroupObject>) =

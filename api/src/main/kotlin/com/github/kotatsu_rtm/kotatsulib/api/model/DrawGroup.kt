@@ -19,11 +19,13 @@ class DrawGroup(materialIndicesPair: MaterialIndicesPair) {
                 }
             }
 
+    @Suppress("unused")
     val ibo =
         IndexBufferObject(
             GLBufferUsage.GL_STATIC_DRAW,
             materialIndicesPair.flatMap { it.value }.flatMap { it.toList() }.toIntArray()
         )
 
+    @Suppress("unused")
     fun getIndices(materialId: Int) = Optional.ofNullable(iboInfos[materialId])
 }

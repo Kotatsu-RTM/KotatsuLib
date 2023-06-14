@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import org.apache.logging.log4j.LogManager
 
+@Suppress("unused")
 @Mod(modid = KotatsuLib.MOD_ID, name = KotatsuLib.MOD_NAME, version = KotatsuLib.MOD_VERSION, guiFactory = "com.github.kotatsu_rtm.kotatsulib.mc1_12_2.core.KotatsuLibConfigImpl\$Gui")
 class KotatsuLibImpl {
     @EventHandler

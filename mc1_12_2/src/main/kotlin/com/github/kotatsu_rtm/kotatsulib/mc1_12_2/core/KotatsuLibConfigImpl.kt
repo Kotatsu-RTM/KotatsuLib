@@ -13,6 +13,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.io.File
 
+@Suppress("unused")
 internal object KotatsuLibConfigImpl : KotatsuLibConfig<Configuration>(ConfigTypeImpl) {
     override val nativeInstance = Configuration(File(relativePathFromGameDirectory))
 

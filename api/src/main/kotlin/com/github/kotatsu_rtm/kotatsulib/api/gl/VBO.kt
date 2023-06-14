@@ -4,6 +4,7 @@ import dev.siro256.forgelib.rtm_glsl.enum.GLBufferUsage
 import dev.siro256.forgelib.rtm_glsl.format.VertexFormat
 import dev.siro256.forgelib.rtm_glsl.wrapper.VertexBufferObject
 
+@Suppress("unused")
 interface VBO {
     class Vertex(usage: GLBufferUsage, objects: List<VertexFormat.Vertex>) : VBO, VertexBufferObject(
         usage,
