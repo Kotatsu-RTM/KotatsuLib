@@ -5,19 +5,19 @@ import dev.siro256.forgelib.rtm_glsl.format.VertexFormat
 import dev.siro256.forgelib.rtm_glsl.wrapper.VertexBufferObject
 
 interface VBO {
-    class Vertex(objects: List<VertexFormat.Vertex>, usage: GLBufferUsage) : VBO, VertexBufferObject(
+    class Vertex(usage: GLBufferUsage, objects: List<VertexFormat.Vertex>) : VBO, VertexBufferObject(
         usage,
         objects.flatMap { it.toList() }.toFloatArray(),
         VertexFormat.Vertex.SIZE_BYTES
     )
 
-    class VertexUV(objects: List<VertexFormat.VertexUV>, usage: GLBufferUsage) : VBO, VertexBufferObject(
+    class VertexUV(usage: GLBufferUsage, objects: List<VertexFormat.VertexUV>) : VBO, VertexBufferObject(
         usage,
         objects.flatMap { it.toList() }.toFloatArray(),
         VertexFormat.VertexUV.SIZE_BYTES
     )
 
-    class VertexNormalUV(objects: List<VertexFormat.VertexNormalUV>, usage: GLBufferUsage) : VBO, VertexBufferObject(
+    class VertexNormalUV(usage: GLBufferUsage, objects: List<VertexFormat.VertexNormalUV>) : VBO, VertexBufferObject(
         usage,
         objects.flatMap { it.toList() }.toFloatArray(),
         VertexFormat.VertexNormalUV.SIZE_BYTES
