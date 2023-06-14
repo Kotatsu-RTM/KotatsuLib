@@ -119,7 +119,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
     }
 
     fun updateProjection(matrix: Matrix4f) =
-        Builder<Matrix4f, Nothing, Nothing, Nothing, Nothing, Nothing>(projectionMatrix = Optional.of(matrix))
+        Builder<Matrix4f, Nothing, Nothing, Nothing, Nothing, Nothing>(Optional.of(matrix))
 
     fun Builder<Matrix4f, Nothing, Nothing, Nothing, Nothing, Nothing>.bindVBO(vbo: VBO.VertexNormalUV) =
         Builder<Matrix4f, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing>(
