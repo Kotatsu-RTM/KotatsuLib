@@ -4,6 +4,7 @@ dependencies {
     api(kotlin("stdlib"))
     api("io.arrow-kt:arrow-core:1.1.5")
     api("dev.siro256.forgelib:rtm-glsl:0.1.0-SNAPSHOT")
+    api("org.joml:joml:1.10.5")
 
     compileOnly("org.lwjgl.lwjgl:lwjgl:2.9.3")
 }
