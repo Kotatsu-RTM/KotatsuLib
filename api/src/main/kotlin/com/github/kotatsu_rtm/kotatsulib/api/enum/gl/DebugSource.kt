@@ -2,6 +2,7 @@ package com.github.kotatsu_rtm.kotatsulib.api.enum.gl
 
 import org.lwjgl.opengl.GL43
 
+@Suppress("unused")
 enum class DebugSource(val constant: Int) {
     GL_DEBUG_SOURCE_API(GL43.GL_DEBUG_SOURCE_API),
     GL_DEBUG_SOURCE_WINDOW_SYSTEM(GL43.GL_DEBUG_SOURCE_WINDOW_SYSTEM),
