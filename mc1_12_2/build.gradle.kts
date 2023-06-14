@@ -1,3 +1,4 @@
+import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import org.apache.tools.ant.filters.ReplaceTokens
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.toLowerCaseAsciiOnly
@@ -15,10 +16,16 @@ buildscript {
 apply(plugin = "net.minecraftforge.gradle")
 
 dependencies {
+    val forgeDependencyManager =
+        project.extensions[DependencyManagementExtension.EXTENSION_NAME] as DependencyManagementExtension
+
     api(project(":core"))
     api(project(":api"))
 
     add("minecraft", "net.minecraftforge:forge:1.12.2-14.23.5.2860")
+
+    compileOnly(forgeDependencyManager.deobf("curse.maven:ngtlib-288989:3873392"))
+    compileOnly(forgeDependencyManager.deobf("curse.maven:realtrainmod-288988:3873403"))
 }
 
 configure<UserDevExtension> {
