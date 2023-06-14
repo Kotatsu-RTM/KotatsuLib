@@ -253,9 +253,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
                 if (vbo != other.vbo) return false
                 if (lightMapUV != other.lightMapUV) return false
                 if (color != other.color) return false
-                if (!indices.contentEquals(other.indices)) return false
-
-                return true
+                return indices.contentEquals(other.indices)
             }
 
             override fun hashCode(): Int {
