@@ -4,6 +4,7 @@ import com.github.kotatsu_rtm.kotatsulib.api.enum.gl.DebugSeverity
 import com.github.kotatsu_rtm.kotatsulib.api.enum.gl.DebugSource
 import com.github.kotatsu_rtm.kotatsulib.api.enum.gl.DebugType
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL43
 import org.lwjgl.opengl.KHRDebugCallback
@@ -13,7 +14,7 @@ object KotatsuLib {
     const val MOD_NAME = "@modName@"
     const val MOD_VERSION = "@modVersion@"
 
-    val logger = LogManager.getLogger(MOD_NAME)
+    val logger: Logger = LogManager.getLogger(MOD_NAME)
 
     fun updateDebugOutputState(config: KotatsuLibConfig<*>) {
         if (!config.enableOpenGLDebugOutput.get().getOrDefault(config.enableOpenGLDebugOutput.default)) {
