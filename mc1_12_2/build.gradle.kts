@@ -15,6 +15,10 @@ buildscript {
 
 apply(plugin = "net.minecraftforge.gradle")
 
+repositories {
+    maven { url = uri("https://cursemaven.com") }
+}
+
 dependencies {
     val forgeDependencyManager =
         project.extensions[DependencyManagementExtension.EXTENSION_NAME] as DependencyManagementExtension
