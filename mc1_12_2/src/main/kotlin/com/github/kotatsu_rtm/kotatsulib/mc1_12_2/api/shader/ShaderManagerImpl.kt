@@ -7,12 +7,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 object ShaderManagerImpl : ShaderManager() {
     @SubscribeEvent
-    fun onRenderWorldLast(event: RenderWorldLastEvent) {
+    fun onRenderWorldLast(@Suppress("UNUSED_PARAMETER") event: RenderWorldLastEvent) {
         flushShaders()
     }
 
     @SubscribeEvent
-    fun onPostDrawScreen(event: DrawScreenEvent.Post) {
+    fun onPostDrawScreen(@Suppress("UNUSED_PARAMETER") event: DrawScreenEvent.Post) {
         flushShaders()
     }
 }
