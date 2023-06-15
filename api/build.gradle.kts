@@ -2,6 +2,7 @@ group = rootProject.group.toString() + ".api"
 
 dependencies {
     api(kotlin("stdlib"))
+    api("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.5.1")
     api("io.arrow-kt:arrow-core:1.1.5")
     api("dev.siro256.forgelib:rtm-glsl:0.1.0-SNAPSHOT")
     api("org.joml:joml:1.10.5")
