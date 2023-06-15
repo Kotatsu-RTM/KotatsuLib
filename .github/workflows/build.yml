@@ -1,0 +1,22 @@
+name: Build
+
+on: push
+
+jobs:
+  build:
+    name: Build
+    uses: Kotatsu-RTM/.github-private/.github/workflows/rtmpack_build.yml@master
+
+  publish:
+    name: Publish artifacts to the Maven repository
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish
+        env:
+          NexusUsername: ${{ secrets.SIRO256_NEXUS_USER }}
+          NexusPassword: ${{ secrets.SIRO256_NEXUS_PASSWORD }}
+          SigningKeyId: ${{ secrets.SIRO256_MAVEN_SIGNING_KEY_ID }}
+          SigningKey: ${{ secrets.SIRO256_MAVEN_SIGNING_KEY }}
+          SigningKeyPassword: ${{ secrets.SIRO256_MAVEN_SIGNING_KEY_PASSWORD }}
+        run: ./gradlew publish
