@@ -34,6 +34,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
     private const val COLOR_LOCATION = 2
     private const val NORMAL_LOCATION = 3
 
+    @Suppress("DuplicatedCode")
     override val vao =
         object : VertexArrayObject() {
             init {
