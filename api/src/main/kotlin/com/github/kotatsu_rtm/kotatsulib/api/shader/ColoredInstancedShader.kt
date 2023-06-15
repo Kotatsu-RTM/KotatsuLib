@@ -69,7 +69,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
     override fun preDraw() {
         super.preDraw()
 
-        GL20.glUniform1i(LIGHT_POSITION_LOCATION, 1)
+        GL20.glUniform1i(LIGHT_SAMPLER_LOCATION, 1)
     }
 
     override fun draw() {
