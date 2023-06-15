@@ -125,84 +125,6 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
     fun updateProjection(matrix: Matrix4f) =
         Builder<Matrix4f, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>(Optional.of(matrix))
 
-    fun Builder<Matrix4f, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>.setMaterial(id: Int) =
-        Builder<Matrix4f, Int, Nothing, Nothing, Nothing, Nothing, Nothing>(
-            projectionMatrix,
-            Optional.of(id)
-        )
-
-    fun Builder<Matrix4f, Int, Nothing, Nothing, Nothing, Nothing, Nothing>.setTexture(name: Int) =
-        Builder<Matrix4f, Int, Int, Nothing, Nothing, Nothing, Nothing>(
-            projectionMatrix, material,
-            Optional.of(name)
-        )
-
-    fun Builder<Matrix4f, Int, Int, Nothing, Nothing, Nothing, Nothing>.bindVBO(vbo: VBO.VertexNormalUV) =
-        Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>(
-            projectionMatrix, material, textureName,
-            Optional.of(vbo)
-        )
-
-    fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>.setLightMapCoords(uv: Vector2f) =
-        Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing>(
-            projectionMatrix, material, textureName, vbo,
-            Optional.of(uv)
-        )
-
-    fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing>.setModelView(matrix: Matrix4f) =
-        Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing>(
-            projectionMatrix, material, textureName, vbo, lightMapUV,
-            Optional.of(matrix)
-        )
-
-    fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing>.useModel(model: DrawGroup) =
-        Builder(projectionMatrix, material, textureName, vbo, lightMapUV, modelViewMatrix, Optional.of(model))
-
-    fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.render(
-        hasAlpha: Boolean = false
-    ) =
-        also {
-            val model = model.get()
-            val indicesInfo = model.getIndices(material.get()).getOrNull() ?: return@also
-            val clonedProjectionMatrix = Matrix4f(projectionMatrix.get())
-            val modelViewProjectionMatrix = clonedProjectionMatrix.mul(modelViewMatrix.get())
-
-            callBuffer.add(
-                RenderData(
-                    modelViewProjectionMatrix,
-                    lightMapUV.get(),
-                    vbo.get(),
-                    textureName.get(),
-                    model.ibo,
-                    indicesInfo,
-                    hasAlpha
-                )
-            )
-        }
-
-    fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.bindVBO(
-        vbo: VBO.VertexNormalUV
-    ) =
-        Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>(
-            projectionMatrix, material, textureName,
-            Optional.of(vbo)
-        )
-
-    fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.setLightMapCoords(uv: Vector2f) =
-        Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing>(
-            projectionMatrix, material, textureName, vbo,
-            Optional.of(uv)
-        )
-
-    fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.setModelView(matrix: Matrix4f) =
-        Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing>(
-            projectionMatrix, material, textureName, vbo, lightMapUV,
-            Optional.of(matrix)
-        )
-
-    fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.useModel(model: DrawGroup) =
-        Builder(projectionMatrix, material, textureName, vbo, lightMapUV, modelViewMatrix, Optional.of(model))
-
     data class RenderData(
         val modelViewProjectionMatrix: Matrix4f,
         val lightMapUV: Vector2f,
@@ -214,12 +136,104 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
     ) : dev.siro256.forgelib.rtm_glsl.shader.Shader.RenderData
 
     data class Builder<A : Any, B : Any, C : Any, D : Any, E : Any, F : Any, G : Any>(
-        val projectionMatrix: Optional<A> = Optional.empty(),
-        val material: Optional<B> = Optional.empty(),
-        val textureName: Optional<C> = Optional.empty(),
-        val vbo: Optional<D> = Optional.empty(),
-        val lightMapUV: Optional<E> = Optional.empty(),
-        val modelViewMatrix: Optional<F> = Optional.empty(),
-        val model: Optional<G> = Optional.empty(),
-    )
+        private val projectionMatrix: Optional<A> = Optional.empty(),
+        private val material: Optional<B> = Optional.empty(),
+        private val textureName: Optional<C> = Optional.empty(),
+        private val vbo: Optional<D> = Optional.empty(),
+        private val lightMapUV: Optional<E> = Optional.empty(),
+        private val modelViewMatrix: Optional<F> = Optional.empty(),
+        private val model: Optional<G> = Optional.empty(),
+    ) {
+        companion object {
+            fun Builder<Matrix4f, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>.setMaterial(id: Int) =
+                Builder<Matrix4f, Int, Nothing, Nothing, Nothing, Nothing, Nothing>(
+                    projectionMatrix,
+                    Optional.of(id)
+                )
+
+            fun Builder<Matrix4f, Int, Nothing, Nothing, Nothing, Nothing, Nothing>.setTexture(name: Int) =
+                Builder<Matrix4f, Int, Int, Nothing, Nothing, Nothing, Nothing>(
+                    projectionMatrix, material,
+                    Optional.of(name)
+                )
+
+            fun Builder<Matrix4f, Int, Int, Nothing, Nothing, Nothing, Nothing>.bindVBO(vbo: VBO.VertexNormalUV) =
+                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>(
+                    projectionMatrix, material, textureName,
+                    Optional.of(vbo)
+                )
+
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>.setLightMapCoords(
+                uv: Vector2f
+            ) =
+                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing>(
+                    projectionMatrix, material, textureName, vbo,
+                    Optional.of(uv)
+                )
+
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing>.setModelView(
+                matrix: Matrix4f
+            ) =
+                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing>(
+                    projectionMatrix, material, textureName, vbo, lightMapUV,
+                    Optional.of(matrix)
+                )
+
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing>.useModel(
+                model: DrawGroup
+            ) =
+                Builder(projectionMatrix, material, textureName, vbo, lightMapUV, modelViewMatrix, Optional.of(model))
+
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.render(
+                hasAlpha: Boolean = false
+            ) =
+                also {
+                    val model = model.get()
+                    val indicesInfo = model.getIndices(material.get()).getOrNull() ?: return@also
+                    val clonedProjectionMatrix = Matrix4f(projectionMatrix.get())
+                    val modelViewProjectionMatrix = clonedProjectionMatrix.mul(modelViewMatrix.get())
+
+                    callBuffer.add(
+                        RenderData(
+                            modelViewProjectionMatrix,
+                            lightMapUV.get(),
+                            vbo.get(),
+                            textureName.get(),
+                            model.ibo,
+                            indicesInfo,
+                            hasAlpha
+                        )
+                    )
+                }
+
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.bindVBO(
+                vbo: VBO.VertexNormalUV
+            ) =
+                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>(
+                    projectionMatrix, material, textureName,
+                    Optional.of(vbo)
+                )
+
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.setLightMapCoords(
+                uv: Vector2f
+            ) =
+                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing>(
+                    projectionMatrix, material, textureName, vbo,
+                    Optional.of(uv)
+                )
+
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.setModelView(
+                matrix: Matrix4f
+            ) =
+                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing>(
+                    projectionMatrix, material, textureName, vbo, lightMapUV,
+                    Optional.of(matrix)
+                )
+
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.useModel(
+                model: DrawGroup
+            ) =
+                Builder(projectionMatrix, material, textureName, vbo, lightMapUV, modelViewMatrix, Optional.of(model))
+        }
+    }
 }
