@@ -12,6 +12,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout codes
+        uses: actions/checkout@v3
+
+      # We're already validated gradle wrapper at build, so skip validation.
+      - name: Add permission to Gradle wrapper
+        run: chmod +x gradlew
+
       - name: Publish
         env:
           NexusUsername: ${{ secrets.SIRO256_NEXUS_USER }}
