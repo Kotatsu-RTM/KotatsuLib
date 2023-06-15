@@ -5,7 +5,7 @@ on: push
 jobs:
   build:
     name: Build
-    uses: Kotatsu-RTM/.github-private/.github/workflows/rtmpack_build.yml@master
+    uses: Kotatsu-RTM/.github/.github/workflows/rtmpack_build.yml@master
 
   publish:
     name: Publish artifacts to the Maven repository
