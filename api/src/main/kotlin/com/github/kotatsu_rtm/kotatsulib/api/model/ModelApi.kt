@@ -10,7 +10,7 @@ abstract class ModelApi(nativeObjects: Map<String, List<NativeFaceWrapper>>) {
     private val objects: List<ModelObject>
 
     @Suppress("MemberVisibilityCanBePrivate")
-    val vbo: VBO
+    val vbo: VBO.VertexNormalUV
 
     @Suppress("unused")
     fun generateDrawGroup(vararg objectNames: String): DrawGroup {
