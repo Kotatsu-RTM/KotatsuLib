@@ -10,12 +10,12 @@ class DrawGroup(materialIndicesPair: MaterialIndicesPair) {
             .filterValues { it.isNotEmpty() }
             .let { pair ->
                 var offset = 0
-                pair.map {
+                pair.mapValues {
                     val size = it.value.size * 3
                     val iboInfo = IboInfo(offset, size)
                     offset += size
 
-                    it.key to iboInfo
+                    iboInfo
                 }
             }
 
