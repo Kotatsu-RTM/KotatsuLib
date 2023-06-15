@@ -208,6 +208,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
                     )
                 }
 
+            @JvmName("bindVBO2")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, IndexBufferObject, IboInfo, List<InstanceData>>.bindVBO(
                 vbo: VBO.VertexNormalUV,
             ) =
@@ -216,6 +217,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
                     Optional.of(vbo)
                 )
 
+            @JvmName("setLightMapCoords2")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, IndexBufferObject, IboInfo, List<InstanceData>>.setLightMapCoords(
                 uv: Vector2f,
             ) =
@@ -224,6 +226,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
                     Optional.of(uv)
                 )
 
+            @JvmName("setModelView2")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, IndexBufferObject, IboInfo, List<InstanceData>>.setModelView(
                 matrix: Matrix4f,
             ) =
@@ -232,6 +235,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
                     Optional.of(matrix)
                 )
 
+            @JvmName("useModel2")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, IndexBufferObject, IboInfo, List<InstanceData>>.useModel(
                 ibo: IndexBufferObject,
                 iboInfoToDraw: IboInfo,

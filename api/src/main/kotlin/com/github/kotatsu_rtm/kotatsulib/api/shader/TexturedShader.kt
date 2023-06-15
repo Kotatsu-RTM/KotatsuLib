@@ -206,6 +206,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
                     )
                 }
 
+            @JvmName("bindVBO2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.bindVBO(
                 vbo: VBO.VertexNormalUV
             ) =
@@ -214,6 +215,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
                     Optional.of(vbo)
                 )
 
+            @JvmName("setLightMapCoords2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.setLightMapCoords(
                 uv: Vector2f
             ) =
@@ -222,6 +224,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
                     Optional.of(uv)
                 )
 
+            @JvmName("setModelView2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.setModelView(
                 matrix: Matrix4f
             ) =
@@ -230,6 +233,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
                     Optional.of(matrix)
                 )
 
+            @JvmName("useModel2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.useModel(
                 model: DrawGroup
             ) =

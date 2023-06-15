@@ -212,6 +212,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Nothing>.setIndices(indices: IntArray) =
                 Builder(projectionMatrix, vbo, lightMapUV, modelViewMatrix, color, Optional.of(indices))
 
+            @JvmName("renderIbo")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Pair<IndexBufferObject, IboInfo>>.render() =
                 also {
                     val clonedProjectionMatrix = Matrix4f(projectionMatrix.get())
@@ -231,6 +232,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
                 }
                     .let { Builder(projectionMatrix, vbo, lightMapUV, modelViewMatrix, color, Optional.empty()) }
 
+            @JvmName("renderIndices")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, IntArray>.render() =
                 also {
                     val clonedProjectionMatrix = Matrix4f(projectionMatrix.get())
@@ -248,35 +250,41 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
                 }
                     .let { Builder(projectionMatrix, vbo, lightMapUV, modelViewMatrix, color, Optional.empty()) }
 
+            @JvmName("bindVBO2")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Any>.bindVBO(vbo: VBO.VertexNormalUV) =
                 Builder<Matrix4f, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing>(
                     projectionMatrix,
                     Optional.of(vbo)
                 )
 
+            @JvmName("setLightMapCoords2")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Any>.setLightMapCoords(uv: Vector2f) =
                 Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing>(
                     projectionMatrix, vbo,
                     Optional.of(uv)
                 )
 
+            @JvmName("setModelView2")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Any>.setModelView(matrix: Matrix4f) =
                 Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing>(
                     projectionMatrix, vbo, lightMapUV,
                     Optional.of(matrix)
                 )
 
+            @JvmName("setColor2")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Any>.setColor(color: UInt) =
                 Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Nothing>(
                     projectionMatrix, vbo, lightMapUV, modelViewMatrix,
                     Optional.of(color)
                 )
 
+            @JvmName("useModel2")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Any>.useModel(
                 ibo: IndexBufferObject,
                 drawInfo: IboInfo,
             ) = Builder(projectionMatrix, vbo, lightMapUV, modelViewMatrix, color, Optional.of(ibo to drawInfo))
 
+            @JvmName("setIndices2")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Any>.setIndices(indices: IntArray) =
                 Builder(projectionMatrix, vbo, lightMapUV, modelViewMatrix, color, Optional.of(indices))
         }
