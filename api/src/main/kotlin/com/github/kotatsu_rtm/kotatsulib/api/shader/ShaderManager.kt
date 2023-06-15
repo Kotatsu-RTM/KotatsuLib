@@ -1,6 +1,7 @@
 package com.github.kotatsu_rtm.kotatsulib.api.shader
 
 import org.lwjgl.opengl.GL11
+import org.lwjgl.opengl.GL20
 
 abstract class ShaderManager {
     protected fun flushShaders() {
@@ -13,6 +14,8 @@ abstract class ShaderManager {
 
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundTexture)
         if (blendState) GL11.glEnable(GL11.GL_BLEND)
+
+        GL20.glUseProgram(0)
     }
 
     companion object {
