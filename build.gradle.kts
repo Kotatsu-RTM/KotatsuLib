@@ -10,8 +10,14 @@ plugins {
 group = "com.github.kotatsu-rtm.kotatsulib"
 version = "0.0.1-SNAPSHOT"
 
-tasks.jar {
-    enabled = false
+tasks {
+    jar {
+        enabled = false
+    }
+
+    withType<PublishToMavenRepository> {
+        enabled = false
+    }
 }
 
 allprojects {
