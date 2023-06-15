@@ -72,8 +72,8 @@ allprojects {
             destinationDirectory.set(rootProject.libsDirectory)
 
             archiveBaseName.set(rootProject.name)
-            archiveAppendix.set("")
-            archiveVersion.set("${rootProject.version}+${project.name}")
+            archiveAppendix.set(project.name)
+            archiveVersion.set(rootProject.version.toString())
             archiveClassifier.set("")
             archiveExtension.set("jar")
 
