@@ -18,10 +18,10 @@ import kotlin.jvm.optionals.getOrNull
 @Suppress("unused")
 object TexturedShader : Shader<TexturedShader.RenderData>(
     TexturedShader::class.java.classLoader
-        .getResourceAsStream("shaders/textured.vsh")!!
+        .getResourceAsStream("shader/textured.vsh")!!
         .readBytes().decodeToString(),
     TexturedShader::class.java.classLoader
-        .getResourceAsStream("shaders/textured.fsh")!!
+        .getResourceAsStream("shader/textured.fsh")!!
         .readBytes().decodeToString()
 ) {
     //uniform

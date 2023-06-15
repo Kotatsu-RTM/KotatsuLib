@@ -17,10 +17,10 @@ import java.util.Optional
 @Suppress("unused")
 object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
     ColoredInstancedShader::class.java.classLoader
-        .getResourceAsStream("shaders/colored_instanced.vsh")!!
+        .getResourceAsStream("shader/colored_instanced.vsh")!!
         .readBytes().decodeToString(),
     ColoredInstancedShader::class.java.classLoader
-        .getResourceAsStream("shaders/colored_instanced.fsh")!!
+        .getResourceAsStream("shader/colored_instanced.fsh")!!
         .readBytes().decodeToString()
 ) {
     //uniform

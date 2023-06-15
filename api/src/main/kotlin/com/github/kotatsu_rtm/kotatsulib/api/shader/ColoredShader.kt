@@ -18,10 +18,10 @@ import java.util.*
 @Suppress("unused")
 object ColoredShader : Shader<ColoredShader.RenderData>(
     ColoredShader::class.java.classLoader
-        .getResourceAsStream("shaders/colored.vsh")!!
+        .getResourceAsStream("shader/colored.vsh")!!
         .readBytes().decodeToString(),
     ColoredShader::class.java.classLoader
-        .getResourceAsStream("shaders/colored.fsh")!!
+        .getResourceAsStream("shader/colored.fsh")!!
         .readBytes().decodeToString()
 ) {
     //uniform
