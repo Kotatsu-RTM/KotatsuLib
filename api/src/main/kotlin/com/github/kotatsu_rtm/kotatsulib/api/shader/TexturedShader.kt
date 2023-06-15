@@ -38,7 +38,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
     private val matrixBuffer = BufferAllocator.createDirectFloatBuffer(16)
 
     @Suppress("DuplicatedCode")
-    override val vao =
+    override val vao by lazy {
         object : VertexArrayObject() {
             init {
                 bind()
@@ -58,6 +58,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
                 unbind()
             }
         }
+    }
 
     override fun preDraw() {
         super.preDraw()

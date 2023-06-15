@@ -35,7 +35,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
     private const val NORMAL_LOCATION = 3
 
     @Suppress("DuplicatedCode")
-    override val vao =
+    override val vao by lazy {
         object : VertexArrayObject() {
             init {
                 bind()
@@ -62,6 +62,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
                 unbind()
             }
         }
+    }
 
     private val matrixBuffer = BufferAllocator.createDirectFloatBuffer(16)
 

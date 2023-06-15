@@ -34,7 +34,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
     private const val VERTEX_POSITION_LOCATION = 0
     private const val NORMAL_LOCATION = 1
 
-    override val vao =
+    override val vao by lazy {
         object : VertexArrayObject() {
             init {
                 bind()
@@ -50,6 +50,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
                 unbind()
             }
         }
+    }
 
     private val matrixBuffer = BufferAllocator.createDirectFloatBuffer(16)
 
