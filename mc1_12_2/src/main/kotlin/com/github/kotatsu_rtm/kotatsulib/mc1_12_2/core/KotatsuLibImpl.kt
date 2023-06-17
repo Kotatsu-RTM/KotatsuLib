@@ -18,8 +18,8 @@ import org.apache.logging.log4j.LogManager
 )
 class KotatsuLibImpl {
     @EventHandler
-    fun onFMLPreInit(@Suppress("UNUSED_PARAMETER") event: FMLPreInitializationEvent) {
-        KotatsuLib.updateDebugOutputState(KotatsuLibConfigImpl)
+    fun onFMLPreInit(event: FMLPreInitializationEvent) {
+        if (event.side.isClient) KotatsuLib.updateDebugOutputState(KotatsuLibConfigImpl)
     }
 
     @EventHandler
