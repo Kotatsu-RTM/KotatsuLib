@@ -23,11 +23,18 @@ class KotatsuLibImpl {
     }
 
     @EventHandler
-    fun onFMLInit(@Suppress("UNUSED_PARAMETER") event: FMLInitializationEvent) {
-        listOf(
-            KotatsuLibConfigImpl,
-            ShaderManagerImpl
-        ).forEach { MinecraftForge.EVENT_BUS.register(it) }
+    fun onFMLInit(event: FMLInitializationEvent) {
+        val bothSideEventListener =
+            listOf(
+                KotatsuLibConfigImpl
+            )
+        val clientOnlyEventListener =
+            listOf(
+                ShaderManagerImpl
+            )
+
+        bothSideEventListener.forEach { MinecraftForge.EVENT_BUS.register(it) }
+        if (event.side.isClient) clientOnlyEventListener.forEach { MinecraftForge.EVENT_BUS.register(it) }
 
         LogManager.getLogger().info(
             """
