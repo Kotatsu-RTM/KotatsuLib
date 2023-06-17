@@ -19,11 +19,12 @@ abstract class ShaderManager {
     }
 
     companion object {
-        private val SHADERS =
+        private val SHADERS by lazy {
             listOf(
                 TexturedShader,
                 ColoredShader,
                 ColoredInstancedShader
             )
+        }
     }
 }
