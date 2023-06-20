@@ -134,8 +134,8 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
         private val material: Optional<B> = Optional.empty(),
         private val textureName: Optional<C> = Optional.empty(),
         private val vbo: Optional<D> = Optional.empty(),
-        private val color: Optional<E> = Optional.empty(),
-        private val modelViewMatrix: Optional<F> = Optional.empty(),
+        private val modelViewMatrix: Optional<E> = Optional.empty(),
+        private val color: Optional<F> = Optional.empty(),
         private val model: Optional<G> = Optional.empty(),
     ) {
         companion object {
@@ -157,23 +157,23 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                     Optional.of(vbo)
                 )
 
-            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>.setColor(color: UInt) =
-                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Nothing, Nothing>(
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>.setModelView(matrix: Matrix4f) =
+                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Matrix4f, Nothing, Nothing>(
                     projectionMatrix, material, textureName, vbo,
-                    Optional.of(color)
-                )
-
-            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Nothing, Nothing>.setModelView(matrix: Matrix4f) =
-                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, Nothing>(
-                    projectionMatrix, material, textureName, vbo, color,
                     Optional.of(matrix)
                 )
 
-            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, Nothing>.useModel(model: DrawGroup) =
-                Builder(projectionMatrix, material, textureName, vbo, color, modelViewMatrix, Optional.of(model))
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Matrix4f, Nothing, Nothing>.setColor(color: UInt) =
+                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Matrix4f, UInt, Nothing>(
+                    projectionMatrix, material, textureName, vbo, modelViewMatrix,
+                    Optional.of(color)
+                )
+
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Matrix4f, UInt, Nothing>.useModel(model: DrawGroup) =
+                Builder(projectionMatrix, material, textureName, vbo, modelViewMatrix, color, Optional.of(model))
 
             @Suppress("DuplicatedCode")
-            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, DrawGroup>.render(
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Matrix4f, UInt, DrawGroup>.render(
                 hasAlpha: Boolean = false,
             ) =
                 also {
@@ -196,7 +196,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                 }
 
             @JvmName("bindVBO2")
-            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, DrawGroup>.bindVBO(
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Matrix4f, UInt, DrawGroup>.bindVBO(
                 vbo: VBO.VertexNormalUV,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>(
@@ -204,25 +204,25 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                     Optional.of(vbo)
                 )
 
-            @JvmName("setColor3")
-            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, DrawGroup>.setColor(color: UInt) =
-                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Nothing, Nothing>(
-                    projectionMatrix, material, textureName, vbo,
-                    Optional.of(color)
-                )
-
             @JvmName("setModelView2")
-            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, DrawGroup>.setModelView(
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Matrix4f, UInt, DrawGroup>.setModelView(
                 matrix: Matrix4f,
             ) =
-                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, Nothing>(
-                    projectionMatrix, material, textureName, vbo, color,
+                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Matrix4f, Nothing, Nothing>(
+                    projectionMatrix, material, textureName, vbo,
                     Optional.of(matrix)
                 )
 
+            @JvmName("setColor3")
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Matrix4f, UInt, DrawGroup>.setColor(color: UInt) =
+                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Matrix4f, UInt, Nothing>(
+                    projectionMatrix, material, textureName, vbo, modelViewMatrix,
+                    Optional.of(color)
+                )
+
             @JvmName("useModel2")
-            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, DrawGroup>.useModel(model: DrawGroup) =
-                Builder(projectionMatrix, material, textureName, vbo, color, modelViewMatrix, Optional.of(model))
+            fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Matrix4f, UInt, DrawGroup>.useModel(model: DrawGroup) =
+                Builder(projectionMatrix, material, textureName, vbo, modelViewMatrix, color, Optional.of(model))
         }
     }
 }
