@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL43
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
+@Suppress("unused")
 object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
     TexturedWithColorShader::class.java.classLoader
         .getResourceAsStream("shader/textured_with_color.vsh")!!
