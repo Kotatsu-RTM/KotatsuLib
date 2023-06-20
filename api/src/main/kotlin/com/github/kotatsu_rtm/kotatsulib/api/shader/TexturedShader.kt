@@ -166,7 +166,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
                 )
 
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>.setLightMapCoords(
-                uv: Vector2f
+                uv: Vector2f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing>(
                     projectionMatrix, material, textureName, vbo,
@@ -174,7 +174,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
                 )
 
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing>.setModelView(
-                matrix: Matrix4f
+                matrix: Matrix4f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing>(
                     projectionMatrix, material, textureName, vbo, lightMapUV,
@@ -182,13 +182,13 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
                 )
 
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing>.useModel(
-                model: DrawGroup
+                model: DrawGroup,
             ) =
                 Builder(projectionMatrix, material, textureName, vbo, lightMapUV, modelViewMatrix, Optional.of(model))
 
             @Suppress("DuplicatedCode")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.render(
-                hasAlpha: Boolean = false
+                hasAlpha: Boolean = false,
             ) =
                 also {
                     val model = model.get()
@@ -211,7 +211,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
 
             @JvmName("bindVBO2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.bindVBO(
-                vbo: VBO.VertexNormalUV
+                vbo: VBO.VertexNormalUV,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>(
                     projectionMatrix, material, textureName,
@@ -220,7 +220,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
 
             @JvmName("setLightMapCoords2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.setLightMapCoords(
-                uv: Vector2f
+                uv: Vector2f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing>(
                     projectionMatrix, material, textureName, vbo,
@@ -229,7 +229,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
 
             @JvmName("setModelView2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.setModelView(
-                matrix: Matrix4f
+                matrix: Matrix4f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing>(
                     projectionMatrix, material, textureName, vbo, lightMapUV,
@@ -238,7 +238,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
 
             @JvmName("useModel2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.useModel(
-                model: DrawGroup
+                model: DrawGroup,
             ) =
                 Builder(projectionMatrix, material, textureName, vbo, lightMapUV, modelViewMatrix, Optional.of(model))
         }

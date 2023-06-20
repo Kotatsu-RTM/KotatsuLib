@@ -174,7 +174,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
 
             @Suppress("DuplicatedCode")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, DrawGroup>.render(
-                hasAlpha: Boolean = false
+                hasAlpha: Boolean = false,
             ) =
                 also {
                     val model = model.get()
@@ -197,7 +197,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
 
             @JvmName("bindVBO2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, DrawGroup>.bindVBO(
-                vbo: VBO.VertexNormalUV
+                vbo: VBO.VertexNormalUV,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing>(
                     projectionMatrix, material, textureName,
@@ -213,7 +213,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
 
             @JvmName("setModelView2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, DrawGroup>.setModelView(
-                matrix: Matrix4f
+                matrix: Matrix4f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, Nothing>(
                     projectionMatrix, material, textureName, vbo, color,
