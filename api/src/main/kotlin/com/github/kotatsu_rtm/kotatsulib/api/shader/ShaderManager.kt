@@ -22,8 +22,9 @@ abstract class ShaderManager {
         private val SHADERS by lazy {
             listOf(
                 TexturedShader,
+                TexturedWithColorShader,
                 ColoredShader,
-                ColoredInstancedShader
+                ColoredInstancedShader,
             )
         }
     }
