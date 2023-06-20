@@ -62,6 +62,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
         GL20.glUniform1i(LIGHT_SAMPLER_LOCATION, 1)
     }
 
+    @Suppress("DuplicatedCode")
     override fun draw() {
         var modelViewProjectionMatrix: Matrix4f by InvokeBlockOnChange {
             matrixBuffer.apply {

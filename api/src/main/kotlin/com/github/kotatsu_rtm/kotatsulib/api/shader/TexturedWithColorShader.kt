@@ -51,6 +51,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
         }
     }
 
+    @Suppress("DuplicatedCode")
     override fun draw() {
         var modelViewProjectionMatrix: Matrix4f by InvokeBlockOnChange {
             matrixBuffer.apply {
@@ -170,6 +171,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, Nothing>.useModel(model: DrawGroup) =
                 Builder(projectionMatrix, material, textureName, vbo, color, modelViewMatrix, Optional.of(model))
 
+            @Suppress("DuplicatedCode")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, UInt, Matrix4f, DrawGroup>.render(
                 hasAlpha: Boolean = false
             ) =

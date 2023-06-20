@@ -67,6 +67,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
         GL20.glUniform1i(LIGHT_SAMPLER_LOCATION, 1)
     }
 
+    @Suppress("DuplicatedCode")
     override fun draw() {
         @Suppress("DuplicatedCode")
         var modelViewProjectionMatrix: Matrix4f by InvokeBlockOnChange {
@@ -185,6 +186,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
             ) =
                 Builder(projectionMatrix, material, textureName, vbo, lightMapUV, modelViewMatrix, Optional.of(model))
 
+            @Suppress("DuplicatedCode")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.render(
                 hasAlpha: Boolean = false
             ) =
