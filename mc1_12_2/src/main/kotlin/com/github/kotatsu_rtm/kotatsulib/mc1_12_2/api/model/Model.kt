@@ -8,7 +8,7 @@ import jp.ngt.ngtlib.renderer.model.GroupObject
 @Suppress("unused")
 abstract class Model(groupObjects: List<GroupObject>) : ModelApi(transformGroupObjects(groupObjects)) {
     companion object {
-        private fun transformGroupObjects(groupObjects: List<GroupObject>) =
+        fun transformGroupObjects(groupObjects: List<GroupObject>) =
             groupObjects.associate { groupObject ->
                 groupObject.name to groupObject.faces.map {
                     fun getVertexNormalUV(index: Int) =
