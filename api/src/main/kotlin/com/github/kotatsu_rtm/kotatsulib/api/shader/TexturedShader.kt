@@ -69,7 +69,6 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
 
     @Suppress("DuplicatedCode")
     override fun draw() {
-        @Suppress("DuplicatedCode")
         var modelViewProjectionMatrix: Matrix4f by InvokeBlockOnChange {
             matrixBuffer.apply {
                 rewind()
