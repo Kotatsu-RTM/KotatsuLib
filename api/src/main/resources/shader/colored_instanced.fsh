@@ -2,10 +2,10 @@
 
 layout (location = 10) uniform sampler2D lightSampler;
 layout (location = 11) uniform vec2 lightPosition;
-layout (location = 12) uniform float shouldNotLighting;
 
 layout (location = 0) in vec4 color;
 layout (location = 1) in vec3 normal;
+layout (location = 2) in float shouldNotLighting;
 
 out vec4 fragColor;
 
