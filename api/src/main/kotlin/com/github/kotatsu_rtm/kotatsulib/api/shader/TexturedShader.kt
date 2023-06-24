@@ -194,7 +194,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
             @Suppress("DuplicatedCode")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.render(
                 hasAlpha: Boolean = false,
-                disableLighting: Boolean,
+                disableLighting: Boolean = false,
             ) =
                 also {
                     val model = model.get()
