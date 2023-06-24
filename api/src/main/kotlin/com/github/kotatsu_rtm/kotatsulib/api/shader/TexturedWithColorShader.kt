@@ -243,6 +243,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                     Optional.of(vbo)
                 )
 
+            @JvmName("setLightMapCoords2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, DrawGroup>.setLightMapCoords(
                 uv: Vector2f
             ) =
