@@ -27,6 +27,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
     private const val MODEL_VIEW_PROJECTION_MATRIX_LOCATION = 0
     private const val LIGHT_SAMPLER_LOCATION = 10
     private const val LIGHT_POSITION_LOCATION = 11
+    private const val SHOULD_NOT_LIGHTING_LOCATION = 12
 
     //in
     private const val VERTEX_POSITION_LOCATION = 0
@@ -85,12 +86,16 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
         var vbo: VBO.VertexNormalUV by InvokeBlockOnChange { it.bind(0) }
         var ibo: IndexBufferObject by InvokeBlockOnChange { it.bind() }
         var lightMapUV: Vector2f by InvokeBlockOnChange { GL20.glUniform2f(LIGHT_POSITION_LOCATION, it.x, it.y) }
+        var shouldNotLighting: Boolean by InvokeBlockOnChange {
+            GL20.glUniform1f(SHOULD_NOT_LIGHTING_LOCATION, if(it) 1.0f else 0.0f)
+        }
 
         callBuffer.forEach {
             modelViewProjectionMatrix = it.modelViewProjectionMatrix
             vbo = it.vbo
             ibo = it.ibo
             lightMapUV = it.lightMapUV
+            shouldNotLighting = it.disableLighting
 
             val instanceDataBuffer =
                 object : VertexBufferObject(
@@ -137,6 +142,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
         val ibo: IndexBufferObject,
         val iboInfoToDraw: IboInfo,
         val instanceData: List<InstanceData>,
+        val disableLighting: Boolean,
     ) : dev.siro256.forgelib.rtm_glsl.shader.Shader.RenderData
 
     data class InstanceData(val offset: Vector3f, val rgba: UInt)
@@ -193,7 +199,9 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
                     Optional.of(instanceData)
                 )
 
-            fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, IndexBufferObject, IboInfo, List<InstanceData>>.render() =
+            fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, IndexBufferObject, IboInfo, List<InstanceData>>.render(
+                disableLighting: Boolean = false,
+            ) =
                 also {
                     val clonedProjectionMatrix = Matrix4f(projectionMatrix.get())
                     val modelViewProjectionMatrix = clonedProjectionMatrix.mul(modelViewMatrix.get())
@@ -205,7 +213,8 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
                             lightMapUV.get(),
                             ibo.get(),
                             iboInfoToDraw.get(),
-                            instanceData.get()
+                            instanceData.get(),
+                            disableLighting
                         )
                     )
                 }

@@ -3,6 +3,7 @@
 layout (location = 10) uniform sampler2D textureSampler;
 layout (location = 11) uniform sampler2D lightSampler;
 layout (location = 12) uniform vec2 lightPosition;
+layout (location = 13) uniform float shouldNotLighting;
 
 layout (location = 0) in vec2 texturePosition;
 layout (location = 1) in vec3 normal;
@@ -20,5 +21,6 @@ void main() {
     vec3 light1DiffuseColor = max(dot(normal, light1), 0.0) * lightColor;
     vec3 diffuseColor = (light0DiffuseColor+ light1DiffuseColor) * 0.5;
 
-    fragColor = vec4(textureColor.rgb * (ambientColor + diffuseColor), textureColor.a);
+    vec3 lightColor =  mix(ambientColor + diffuseColor, vec3(1.0, 1.0, 1.0), step(0.5, shouldNotLighting));
+    fragColor = vec4(textureColor.rgb * lightColor, textureColor.a);
 }

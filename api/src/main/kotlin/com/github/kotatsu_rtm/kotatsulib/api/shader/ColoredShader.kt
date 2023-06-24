@@ -31,6 +31,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
     private const val COLOR_LOCATION = 10
     private const val LIGHT_SAMPLER_LOCATION = 11
     private const val LIGHT_POSITION_LOCATION = 12
+    private const val SHOULD_NOT_LIGHTING_LOCATION = 13
 
     // in
     private const val VERTEX_POSITION_LOCATION = 0
@@ -83,12 +84,16 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
             )
         }
         var ibo: IndexBufferObject by InvokeBlockOnChange { it.bind() }
+        var shouldNotLighting: Boolean by InvokeBlockOnChange {
+            GL20.glUniform1f(SHOULD_NOT_LIGHTING_LOCATION, if(it) 1.0f else 0.0f)
+        }
 
         callBuffer.forEach {
             modelViewProjectionMatrix = it.modelViewProjectionMatrix
             vbo = it.vbo
             lightMapUV = it.lightMapUV
             color = it.color
+            shouldNotLighting = it.disableLighting
 
             if (it is RenderData.Buffered) {
                 ibo = it.ibo
@@ -130,12 +135,14 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
         val vbo: VBO.VertexNormalUV
         val lightMapUV: Vector2f
         val color: UInt
+        val disableLighting: Boolean
 
         data class Buffered(
             override val modelViewProjectionMatrix: Matrix4f,
             override val vbo: VBO.VertexNormalUV,
             override val lightMapUV: Vector2f,
             override val color: UInt,
+            override val disableLighting: Boolean,
             val ibo: IndexBufferObject,
             val iboInfoToDraw: IboInfo,
         ) : RenderData
@@ -145,6 +152,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
             override val vbo: VBO.VertexNormalUV,
             override val lightMapUV: Vector2f,
             override val color: UInt,
+            override val disableLighting: Boolean,
             val indices: IntArray,
         ) : RenderData {
             override fun equals(other: Any?): Boolean {
@@ -226,7 +234,9 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
                 Builder(projectionMatrix, material, vbo, lightMapUV, modelViewMatrix, color, Optional.of(indices))
 
             @JvmName("renderModel")
-            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, DrawGroup>.render() =
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, DrawGroup>.render(
+                disableLighting: Boolean = false,
+            ) =
                 also {
                     val clonedProjectionMatrix = Matrix4f(projectionMatrix.get())
                     val modelViewProjectionMatrix = clonedProjectionMatrix.mul(modelViewMatrix.get())
@@ -239,6 +249,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
                             vbo.get(),
                             lightMapUV.get(),
                             color.get(),
+                            disableLighting,
                             drawGroup.ibo,
                             indicesInfo
                         )
@@ -249,7 +260,9 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
                     }
 
             @JvmName("renderIndices")
-            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, IntArray>.render() =
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, IntArray>.render(
+                disableLighting: Boolean = false,
+            ) =
                 also {
                     val clonedProjectionMatrix = Matrix4f(projectionMatrix.get())
                     val modelViewProjectionMatrix = clonedProjectionMatrix.mul(modelViewMatrix.get())
@@ -260,6 +273,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
                             vbo.get(),
                             lightMapUV.get(),
                             color.get(),
+                            disableLighting,
                             drawGroupOrIndices.get()
                         )
                     )

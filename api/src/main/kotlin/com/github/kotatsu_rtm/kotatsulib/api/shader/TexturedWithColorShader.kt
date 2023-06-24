@@ -30,6 +30,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
     private const val COLOR_LOCATION = 11
     private const val LIGHT_SAMPLER_LOCATION = 12
     private const val LIGHT_POSITION_LOCATION = 13
+    private const val SHOULD_NOT_LIGHTING_LOCATION = 14
 
     //in
     private const val VERTEX_POSITION_LOCATION = 0
@@ -90,6 +91,9 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                 (it and 0xffu).toFloat() / 255.0F
             )
         }
+        var shouldNotLighting: Boolean by InvokeBlockOnChange {
+            GL20.glUniform1f(SHOULD_NOT_LIGHTING_LOCATION, if(it) 1.0f else 0.0f)
+        }
 
         fun processDraw(renderData: RenderData) {
             modelViewProjectionMatrix = renderData.modelViewProjectionMatrix
@@ -98,6 +102,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
             lightMapUV = renderData.lightMapUV
             texture = renderData.textureName
             color = renderData.color
+            shouldNotLighting = renderData.disableLighting
 
             GL11.glDrawElements(
                 GL11.GL_TRIANGLES,
@@ -146,6 +151,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
         val ibo: IndexBufferObject,
         val iboInfoToDraw: IboInfo,
         val hasAlpha: Boolean,
+        val disableLighting: Boolean,
     ) : dev.siro256.forgelib.rtm_glsl.shader.Shader.RenderData
 
     data class Builder<A : Any, B : Any, C : Any, D : Any, E : Any, F : Any, G : Any, H : Any>(
@@ -172,7 +178,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                 )
 
             fun Builder<Matrix4f, Int, Int, Nothing, Nothing, Nothing, Nothing, Nothing>.bindVBO(
-                vbo: VBO.VertexNormalUV
+                vbo: VBO.VertexNormalUV,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing>(
                     projectionMatrix, material, textureName,
@@ -180,7 +186,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                 )
 
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing>.setLightMapCoords(
-                uv: Vector2f
+                uv: Vector2f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing>(
                     projectionMatrix, material, textureName, vbo,
@@ -188,7 +194,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                 )
 
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing>.setModelView(
-                matrix: Matrix4f
+                matrix: Matrix4f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing>(
                     projectionMatrix, material, textureName, vbo, lightMapUV,
@@ -196,7 +202,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                 )
 
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing>.setColor(
-                color: UInt
+                color: UInt,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Nothing>(
                     projectionMatrix, material, textureName, vbo, lightMapUV, modelViewMatrix,
@@ -204,7 +210,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                 )
 
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Nothing>.useModel(
-                model: DrawGroup
+                model: DrawGroup,
             ) =
                 Builder(
                     projectionMatrix, material, textureName, vbo, lightMapUV, modelViewMatrix, color,
@@ -214,6 +220,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
             @Suppress("DuplicatedCode")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, DrawGroup>.render(
                 hasAlpha: Boolean = false,
+                disableLighting: Boolean,
             ) =
                 also {
                     val model = model.get()
@@ -230,7 +237,8 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                             color.get(),
                             model.ibo,
                             indicesInfo,
-                            hasAlpha
+                            hasAlpha,
+                            disableLighting
                         )
                     )
                 }
@@ -246,7 +254,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
 
             @JvmName("setLightMapCoords2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, DrawGroup>.setLightMapCoords(
-                uv: Vector2f
+                uv: Vector2f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing>(
                     projectionMatrix, material, textureName, vbo,
@@ -264,7 +272,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
 
             @JvmName("setColor3")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, DrawGroup>.setColor(
-                color: UInt
+                color: UInt,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Nothing>(
                     projectionMatrix, material, textureName, vbo, lightMapUV, modelViewMatrix,
@@ -273,7 +281,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
 
             @JvmName("useModel2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, DrawGroup>.useModel(
-                model: DrawGroup
+                model: DrawGroup,
             ) =
                 Builder(
                     projectionMatrix, material, textureName, vbo, lightMapUV, modelViewMatrix, color,

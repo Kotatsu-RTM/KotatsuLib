@@ -29,6 +29,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
     private const val TEXTURE_SAMPLER_LOCATION = 10
     private const val LIGHT_SAMPLER_LOCATION = 11
     private const val LIGHT_POSITION_LOCATION = 12
+    private const val SHOULD_NOT_LIGHTING_LOCATION = 13
 
     //in
     private const val VERTEX_POSITION_LOCATION = 0
@@ -80,6 +81,9 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
         var ibo: IndexBufferObject by InvokeBlockOnChange { it.bind() }
         var lightMapUV: Vector2f by InvokeBlockOnChange { GL20.glUniform2f(LIGHT_POSITION_LOCATION, it.x, it.y) }
         var texture: Int by InvokeBlockOnChange { GL11.glBindTexture(GL11.GL_TEXTURE_2D, it) }
+        var shouldNotLighting: Boolean by InvokeBlockOnChange {
+            GL20.glUniform1f(SHOULD_NOT_LIGHTING_LOCATION, if(it) 1.0f else 0.0f)
+        }
 
         fun processDraw(renderData: RenderData) {
             modelViewProjectionMatrix = renderData.modelViewProjectionMatrix
@@ -87,6 +91,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
             ibo = renderData.ibo
             lightMapUV = renderData.lightMapUV
             texture = renderData.textureName
+            shouldNotLighting = renderData.disableLighting
 
             GL11.glDrawElements(
                 GL11.GL_TRIANGLES,
@@ -134,6 +139,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
         val ibo: IndexBufferObject,
         val iboInfoToDraw: IboInfo,
         val hasAlpha: Boolean,
+        val disableLighting: Boolean,
     ) : dev.siro256.forgelib.rtm_glsl.shader.Shader.RenderData
 
     data class Builder<A : Any, B : Any, C : Any, D : Any, E : Any, F : Any, G : Any>(
@@ -188,6 +194,7 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
             @Suppress("DuplicatedCode")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, DrawGroup>.render(
                 hasAlpha: Boolean = false,
+                disableLighting: Boolean,
             ) =
                 also {
                     val model = model.get()
@@ -203,7 +210,8 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
                             textureName.get(),
                             model.ibo,
                             indicesInfo,
-                            hasAlpha
+                            hasAlpha,
+                            disableLighting
                         )
                     )
                 }
