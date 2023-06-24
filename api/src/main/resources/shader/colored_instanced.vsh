@@ -25,4 +25,5 @@ void main() {
     gl_Position = modelViewProjectionMatrix * translate(vertexOffset) * vec4(vertexPosition, 1.0);
     color = colorIn;
     normalOut = normalIn;
+    shouldNotLightingOut = shouldNotLightingIn;
 }
