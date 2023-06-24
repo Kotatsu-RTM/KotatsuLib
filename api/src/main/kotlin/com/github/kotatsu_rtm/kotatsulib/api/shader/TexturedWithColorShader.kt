@@ -38,6 +38,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
 
     private val matrixBuffer = BufferAllocator.createDirectFloatBuffer(16)
 
+    @Suppress("DuplicatedCode")
     override val vao by lazy {
         object : VertexArrayObject() {
             init {

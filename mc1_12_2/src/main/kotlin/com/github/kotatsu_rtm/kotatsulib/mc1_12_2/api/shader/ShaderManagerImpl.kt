@@ -5,6 +5,7 @@ import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent
 import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
+@Suppress("unused")
 object ShaderManagerImpl : ShaderManager() {
     @SubscribeEvent
     fun onRenderWorldLast(@Suppress("UNUSED_PARAMETER") event: RenderWorldLastEvent) {

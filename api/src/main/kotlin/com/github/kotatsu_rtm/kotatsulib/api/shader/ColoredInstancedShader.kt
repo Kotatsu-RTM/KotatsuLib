@@ -72,6 +72,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
         GL20.glUniform1i(LIGHT_SAMPLER_LOCATION, 1)
     }
 
+    @Suppress("DuplicatedCode")
     override fun draw() {
         @Suppress("DuplicatedCode")
         var modelViewProjectionMatrix: Matrix4f by InvokeBlockOnChange {
