@@ -47,7 +47,7 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
                 GL20.glEnableVertexAttribArray(VERTEX_POSITION_LOCATION)
 
                 GL43.glVertexAttribBinding(NORMAL_LOCATION, 0)
-                GL43.glVertexAttribFormat(NORMAL_LOCATION, 3, GL11.GL_FLOAT, false, 6 * Float.SIZE_BYTES)
+                GL43.glVertexAttribFormat(NORMAL_LOCATION, 3, GL11.GL_FLOAT, false, 3 * Float.SIZE_BYTES)
                 GL20.glEnableVertexAttribArray(NORMAL_LOCATION)
 
                 unbind()
