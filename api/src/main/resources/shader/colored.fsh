@@ -4,13 +4,14 @@ layout (location = 10) uniform vec4 color;
 layout (location = 11) uniform sampler2D lightSampler;
 layout (location = 12) uniform vec2 lightPosition;
 layout (location = 13) uniform float shouldNotLighting;
+layout (location = 14) uniform mat4 inverseModelMatrix;
 
 layout (location = 0) in vec3 normal;
 
 out vec4 fragColor;
 
-const vec3 light0 = normalize(vec3(0.2, 1.0, -0.7));
-const vec3 light1 = normalize(vec3(-0.2, 1.0, 0.7));
+const vec3 light0 = normalize(inverseModelMatrix * vec4(0.2, 1.0, -0.7, 0.0)).xyz;
+const vec3 light1 = normalize(inverseModelMatrix * vec4(-0.2, 1.0, 0.7, 0.0)).xyz;
 const vec3 lightColor = vec3(0.6, 0.6, 0.6);
 
 void main() {
