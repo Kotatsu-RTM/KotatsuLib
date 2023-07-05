@@ -2,8 +2,40 @@ package com.github.kotatsu_rtm.kotatsulib.mc1_12_2.api.rtm
 
 import com.github.kotatsu_rtm.kotatsulib.api.rtm.TrainStateWrapper
 import jp.ngt.rtm.entity.train.util.EnumNotch
+import jp.ngt.rtm.entity.train.util.TrainState.TrainStateType
 
 class TrainStateWrapperImpl private constructor() {
+    object TrainStateImpl : TrainState.ITrainState<TrainStateType> {
+        override fun fromNative(native: TrainStateType) =
+            when (native) {
+                TrainStateType.Direction -> TrainState.Direction
+                TrainStateType.Notch -> TrainState.Notch
+                TrainStateType.Signal -> TrainState.Signal
+                TrainStateType.Door -> TrainState.Door
+                TrainStateType.Light -> TrainState.Light
+                TrainStateType.Pantograph -> TrainState.Pantograph
+                TrainStateType.Destination -> TrainState.Destination
+                TrainStateType.Announcement -> TrainState.Announcement
+                TrainStateType.Role -> TrainState.Role
+                TrainStateType.InteriorLight -> TrainState.InteriorLight
+                else -> throw IllegalArgumentException("Unsupported type $native")
+            }
+
+        override fun toNative(wrapperValue: TrainState<*>) =
+            when (wrapperValue) {
+                TrainState.Direction -> TrainStateType.Direction
+                TrainState.Notch -> TrainStateType.Notch
+                TrainState.Signal -> TrainStateType.Signal
+                TrainState.Door -> TrainStateType.Door
+                TrainState.Light -> TrainStateType.Light
+                TrainState.Pantograph -> TrainStateType.Pantograph
+                TrainState.Destination -> TrainStateType.Destination
+                TrainState.Announcement -> TrainStateType.Announcement
+                TrainState.Role -> TrainStateType.Role
+                TrainState.InteriorLight -> TrainStateType.InteriorLight
+            }
+    }
+
     object DirectionImpl : TrainStateWrapper.Direction.IDirection<Int> {
         override fun fromNative(native: Int) =
             when (native) {
