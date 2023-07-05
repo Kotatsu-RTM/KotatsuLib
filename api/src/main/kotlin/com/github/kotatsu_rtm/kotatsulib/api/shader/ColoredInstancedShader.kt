@@ -185,12 +185,12 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
                 )
 
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing, Nothing>.setModelView(
-                modelView: Matrix4f,
-                inverseModel: Matrix4f,
+                model: Matrix4f,
+                view: Matrix4f,
             ) =
                 Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, Nothing, Nothing, Nothing>(
                     projectionMatrix, vbo, lightMapUV,
-                    Optional.of(modelView), Optional.of(inverseModel)
+                    Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
                 )
 
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, Nothing, Nothing, Nothing>.useModel(
@@ -248,12 +248,12 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
 
             @JvmName("setModelView2")
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, IndexBufferObject, IboInfo, List<InstanceData>>.setModelView(
-                modelView: Matrix4f,
-                inverseModel: Matrix4f,
+                model: Matrix4f,
+                view: Matrix4f,
             ) =
                 Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, Nothing, Nothing, Nothing>(
                     projectionMatrix, vbo, lightMapUV,
-                    Optional.of(modelView), Optional.of(inverseModel)
+                    Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
                 )
 
             @JvmName("useModel2")

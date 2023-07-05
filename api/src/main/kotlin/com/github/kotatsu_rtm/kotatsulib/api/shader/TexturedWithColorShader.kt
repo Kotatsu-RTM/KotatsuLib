@@ -209,12 +209,12 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                 )
 
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>.setModelView(
-                modelView: Matrix4f,
-                inverseModel: Matrix4f,
+                model: Matrix4f,
+                view: Matrix4f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, Nothing, Nothing>(
                     projectionMatrix, material, textureName, vbo, lightMapUV,
-                    Optional.of(modelView), Optional.of(inverseModel)
+                    Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
                 )
 
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, Nothing, Nothing>.setColor(
@@ -281,12 +281,12 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
 
             @JvmName("setModelView2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, UInt, DrawGroup>.setModelView(
-                modelView: Matrix4f,
-                inverseModel: Matrix4f,
+                model: Matrix4f,
+                view: Matrix4f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, Nothing, Nothing>(
                     projectionMatrix, material, textureName, vbo, lightMapUV,
-                    Optional.of(modelView), Optional.of(inverseModel)
+                    Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
                 )
 
             @JvmName("setColor3")

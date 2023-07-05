@@ -192,12 +192,12 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
                 )
 
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing>.setModelView(
-                modelView: Matrix4f,
-                inverseModel: Matrix4f,
+                model: Matrix4f,
+                view: Matrix4f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, Nothing>(
                     projectionMatrix, material, textureName, vbo, lightMapUV,
-                    Optional.of(modelView), Optional.of(inverseModel)
+                    Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
                 )
 
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, Nothing>.useModel(
@@ -255,12 +255,12 @@ object TexturedShader : Shader<TexturedShader.RenderData>(
 
             @JvmName("setModelView2")
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, DrawGroup>.setModelView(
-                modelView: Matrix4f,
-                inverseModel: Matrix4f,
+                model: Matrix4f,
+                view: Matrix4f,
             ) =
                 Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, Nothing>(
                     projectionMatrix, material, textureName, vbo, lightMapUV,
-                    Optional.of(modelView), Optional.of(inverseModel)
+                    Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
                 )
 
             @JvmName("useModel2")
