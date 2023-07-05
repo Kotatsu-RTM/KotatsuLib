@@ -115,6 +115,12 @@ abstract class TrainStateWrapper<T : Any>(private val entity: T) {
         RIGHT_OPEN,
         BOTH_OPEN;
 
+        val isLeftOpen
+            get() = this == LEFT_OPEN || this == BOTH_OPEN
+
+        val isRightOpen
+            get() = this == RIGHT_OPEN || this == BOTH_OPEN
+
         interface IDoor<T : Any> : NativeBridge<T, Door>
     }
 
