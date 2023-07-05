@@ -33,6 +33,21 @@ data class TrainStateWrapper(
                 )
     }
 
+    sealed interface TrainState<T : Any> {
+        object Direction : TrainState<TrainStateWrapper.Direction>
+        object Notch : TrainState<TrainStateWrapper.Notch>
+        object Signal : TrainState<Int>
+        object Door : TrainState<TrainStateWrapper.Door>
+        object Light : TrainState<TrainStateWrapper.Light>
+        object Pantograph : TrainState<TrainStateWrapper.Pantograph>
+        object Destination : TrainState<Int>
+        object Announcement : TrainState<Int>
+        object Role : TrainState<TrainStateWrapper.Role>
+        object InteriorLight : TrainState<TrainStateWrapper.InteriorLight>
+
+        interface ITrainState<T : Any> : NativeBridge<T, TrainState<*>>
+    }
+
     enum class Direction {
         FRONT,
         BACK;
