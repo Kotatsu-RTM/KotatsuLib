@@ -4,34 +4,46 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-data class TrainStateWrapper(
-    val direction: Direction,
-    val notch: Notch,
-    val signal: Int,
-    val door: Door,
-    val light: Light,
-    val pantograph: Pantograph,
-    val destination: Int,
-    val announcement: Int,
-    val role: Role,
-    val interiorLight: InteriorLight,
-) {
-    companion object {
-        val DEFAULT: TrainStateWrapper
-            get() =
-                TrainStateWrapper(
-                    Direction.FRONT,
-                    Notch.EB,
-                    0,
-                    Door.CLOSED,
-                    Light.FULLY_ON,
-                    Pantograph.UP,
-                    0,
-                    0,
-                    Role.FRONT,
-                    InteriorLight.FULLY_ON
-                )
-    }
+abstract class TrainStateWrapper<T : Any>(private val entity: T) {
+    protected abstract fun <U : Any> getState(entity: T, state: TrainState<U>): U
+
+    protected abstract fun <U : Any> setState(entity: T, state: TrainState<U>, value: U)
+
+    var direction: Direction
+        get() = getState(entity, TrainState.Direction)
+        set(value) = setState(entity, TrainState.Direction, value)
+
+    var notch: Notch
+        get() = getState(entity, TrainState.Notch)
+        set(value) = setState(entity, TrainState.Notch, value)
+
+    var door: Door
+        get() = getState(entity, TrainState.Door)
+        set(value) = setState(entity, TrainState.Door, value)
+
+    var light: Light
+        get() = getState(entity, TrainState.Light)
+        set(value) = setState(entity, TrainState.Light, value)
+
+    var pantograph: Pantograph
+        get() = getState(entity, TrainState.Pantograph)
+        set(value) = setState(entity, TrainState.Pantograph, value)
+
+    var destination: Int
+        get() = getState(entity, TrainState.Destination)
+        set(value) = setState(entity, TrainState.Destination, value)
+
+    var announcement: Int
+        get() = getState(entity, TrainState.Announcement)
+        set(value) = setState(entity, TrainState.Announcement, value)
+
+    var role: Role
+        get() = getState(entity, TrainState.Role)
+        set(value) = setState(entity, TrainState.Role, value)
+
+    var interiorLight: InteriorLight
+        get() = getState(entity, TrainState.InteriorLight)
+        set(value) = setState(entity, TrainState.InteriorLight, value)
 
     sealed interface TrainState<T : Any> {
         object Direction : TrainState<TrainStateWrapper.Direction>
