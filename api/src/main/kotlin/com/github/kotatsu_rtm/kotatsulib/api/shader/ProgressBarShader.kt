@@ -162,142 +162,144 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
         private val progression: Optional<G> = Optional.empty(),
         private val model: Optional<H> = Optional.empty(),
     ) {
-        fun Builder<Matrix4f, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>.setMaterial(id: Int) =
-            Builder<Matrix4f, Int, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>(
-                projectionMatrix,
-                Optional.of(id)
-            )
-
-        fun Builder<Matrix4f, Int, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>.bindVBO(
-            vbo: VBO.VertexNormalUV,
-        ) =
-            Builder<Matrix4f, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing, Nothing>(
-                projectionMatrix, material,
-                Optional.of(vbo)
-            )
-
-        fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing, Nothing>.setLightMapCoords(
-            uv: Vector2f,
-        ) =
-            Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>(
-                projectionMatrix, material, vbo,
-                Optional.of(uv)
-            )
-
-        fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>.setModelView(
-            model: Matrix4f,
-            view: Matrix4f,
-        ) =
-            Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing, Nothing>(
-                projectionMatrix, material, vbo, lightMapUV,
-                Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
-            )
-
-        fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing, Nothing>.setColor(
-            most: UInt,
-            least: UInt,
-        ) =
-            Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Nothing, Nothing>(
-                projectionMatrix, material, vbo, lightMapUV, modelViewMatrix, inverseModelMatrix,
-                Optional.of(most), Optional.of(least)
-            )
-
-        fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>.setProgression(
-            progression: Float,
-        ) =
-            Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>(
-                projectionMatrix, material, vbo, lightMapUV, modelViewMatrix, inverseModelMatrix, mostColor, leastColor,
-                Optional.of(progression)
-            )
-
-        fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>.useModel(
-            model: DrawGroup,
-        ) =
-            Builder(
-                projectionMatrix,
-                material,
-                vbo,
-                lightMapUV,
-                modelViewMatrix, inverseModelMatrix,
-                mostColor, leastColor,
-                progression,
-                Optional.of(model)
-            )
-
-        fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.render(
-            disableLighting: Boolean = false,
-        ) =
-            also {
-                val model = model.get()
-                val indicesInfo = model.getIndices(material.get()).getOrNull() ?: return@also
-                val modelViewProjectionMatrix = projectionMatrix.get().mul(modelViewMatrix.get())
-
-                callBuffer.add(
-                    RenderData(
-                        modelViewProjectionMatrix,
-                        inverseModelMatrix.get(),
-                        lightMapUV.get(),
-                        vbo.get(),
-                        model.ibo,
-                        indicesInfo,
-                        mostColor.get(),
-                        leastColor.get(),
-                        progression.get(),
-                        disableLighting
-                    )
+        companion object {
+            fun Builder<Matrix4f, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>.setMaterial(id: Int) =
+                Builder<Matrix4f, Int, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>(
+                    projectionMatrix,
+                    Optional.of(id)
                 )
-            }
 
-        @JvmName("bindVBO2")
-        fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.bindVBO(
-            vbo: VBO.VertexNormalUV,
-        ) =
-            Builder<Matrix4f, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing, Nothing>(
-                projectionMatrix, material,
-                Optional.of(vbo)
-            )
+            fun Builder<Matrix4f, Int, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>.bindVBO(
+                vbo: VBO.VertexNormalUV,
+            ) =
+                Builder<Matrix4f, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing, Nothing>(
+                    projectionMatrix, material,
+                    Optional.of(vbo)
+                )
 
-        @JvmName("setLightMapCoords2")
-        fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.setLightMapCoords(
-            uv: Vector2f,
-        ) =
-            Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>(
-                projectionMatrix, material, vbo,
-                Optional.of(uv)
-            )
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing, Nothing>.setLightMapCoords(
+                uv: Vector2f,
+            ) =
+                Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>(
+                    projectionMatrix, material, vbo,
+                    Optional.of(uv)
+                )
 
-        @JvmName("setModelView2")
-        fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.setModelView(
-            model: Matrix4f,
-            view: Matrix4f,
-        ) =
-            Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing, Nothing>(
-                projectionMatrix, material, vbo, lightMapUV,
-                Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
-            )
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>.setModelView(
+                model: Matrix4f,
+                view: Matrix4f,
+            ) =
+                Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing, Nothing>(
+                    projectionMatrix, material, vbo, lightMapUV,
+                    Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
+                )
 
-        @JvmName("setProgression2")
-        fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.setProgression(
-            progression: Float,
-        ) =
-            Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>(
-                projectionMatrix, material, vbo, lightMapUV, modelViewMatrix, inverseModelMatrix, mostColor, leastColor,
-                Optional.of(progression)
-            )
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing, Nothing>.setColor(
+                most: UInt,
+                least: UInt,
+            ) =
+                Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Nothing, Nothing>(
+                    projectionMatrix, material, vbo, lightMapUV, modelViewMatrix, inverseModelMatrix,
+                    Optional.of(most), Optional.of(least)
+                )
 
-        @JvmName("useModel2")
-        fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.useModel(
-            model: DrawGroup,
-        ) =
-            Builder(
-                projectionMatrix,
-                material,
-                vbo,
-                lightMapUV,
-                modelViewMatrix, inverseModelMatrix,
-                mostColor, leastColor,
-                progression,
-                Optional.of(model)
-            )
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>.setProgression(
+                progression: Float,
+            ) =
+                Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>(
+                    projectionMatrix, material, vbo, lightMapUV, modelViewMatrix, inverseModelMatrix, mostColor, leastColor,
+                    Optional.of(progression)
+                )
+
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>.useModel(
+                model: DrawGroup,
+            ) =
+                Builder(
+                    projectionMatrix,
+                    material,
+                    vbo,
+                    lightMapUV,
+                    modelViewMatrix, inverseModelMatrix,
+                    mostColor, leastColor,
+                    progression,
+                    Optional.of(model)
+                )
+
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.render(
+                disableLighting: Boolean = false,
+            ) =
+                also {
+                    val model = model.get()
+                    val indicesInfo = model.getIndices(material.get()).getOrNull() ?: return@also
+                    val modelViewProjectionMatrix = projectionMatrix.get().mul(modelViewMatrix.get())
+
+                    callBuffer.add(
+                        RenderData(
+                            modelViewProjectionMatrix,
+                            inverseModelMatrix.get(),
+                            lightMapUV.get(),
+                            vbo.get(),
+                            model.ibo,
+                            indicesInfo,
+                            mostColor.get(),
+                            leastColor.get(),
+                            progression.get(),
+                            disableLighting
+                        )
+                    )
+                }
+
+            @JvmName("bindVBO2")
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.bindVBO(
+                vbo: VBO.VertexNormalUV,
+            ) =
+                Builder<Matrix4f, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing, Nothing>(
+                    projectionMatrix, material,
+                    Optional.of(vbo)
+                )
+
+            @JvmName("setLightMapCoords2")
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.setLightMapCoords(
+                uv: Vector2f,
+            ) =
+                Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>(
+                    projectionMatrix, material, vbo,
+                    Optional.of(uv)
+                )
+
+            @JvmName("setModelView2")
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.setModelView(
+                model: Matrix4f,
+                view: Matrix4f,
+            ) =
+                Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing, Nothing>(
+                    projectionMatrix, material, vbo, lightMapUV,
+                    Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
+                )
+
+            @JvmName("setProgression2")
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.setProgression(
+                progression: Float,
+            ) =
+                Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>(
+                    projectionMatrix, material, vbo, lightMapUV, modelViewMatrix, inverseModelMatrix, mostColor, leastColor,
+                    Optional.of(progression)
+                )
+
+            @JvmName("useModel2")
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.useModel(
+                model: DrawGroup,
+            ) =
+                Builder(
+                    projectionMatrix,
+                    material,
+                    vbo,
+                    lightMapUV,
+                    modelViewMatrix, inverseModelMatrix,
+                    mostColor, leastColor,
+                    progression,
+                    Optional.of(model)
+                )
+        }
     }
 }
