@@ -231,7 +231,8 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 also {
                     val model = model.get()
                     val indicesInfo = model.getIndices(material.get()).getOrNull() ?: return@also
-                    val modelViewProjectionMatrix = projectionMatrix.get().mul(modelViewMatrix.get())
+                    val clonedProjectionMatrix = Matrix4f(projectionMatrix.get())
+                    val modelViewProjectionMatrix = clonedProjectionMatrix.mul(modelViewMatrix.get())
 
                     callBuffer.add(
                         RenderData(
