@@ -203,7 +203,7 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                     Optional.of(most), Optional.of(least)
                 )
 
-            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>.setProgression(
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Nothing, Nothing>.setProgression(
                 progression: Float,
             ) =
                 Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>(
