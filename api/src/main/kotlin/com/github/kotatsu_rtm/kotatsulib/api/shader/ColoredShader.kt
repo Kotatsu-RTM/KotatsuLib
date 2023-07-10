@@ -263,10 +263,10 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
                 disableLighting: Boolean = false,
             ) =
                 also {
-                    val clonedProjectionMatrix = Matrix4f(projectionMatrix.get())
-                    val modelViewProjectionMatrix = clonedProjectionMatrix.mul(modelViewMatrix.get())
                     val drawGroup = drawGroupOrIndices.get()
                     val indicesInfo = drawGroup.getIndices(material.get()).getOrNull() ?: return@also
+                    val clonedProjectionMatrix = Matrix4f(projectionMatrix.get())
+                    val modelViewProjectionMatrix = clonedProjectionMatrix.mul(modelViewMatrix.get())
 
                     callBuffer.add(
                         RenderData.Buffered(
