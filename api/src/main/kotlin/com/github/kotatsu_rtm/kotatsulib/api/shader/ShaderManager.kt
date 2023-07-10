@@ -25,6 +25,7 @@ abstract class ShaderManager {
                 TexturedWithColorShader,
                 ColoredShader,
                 ColoredInstancedShader,
+                ProgressBarShader,
             )
         }
     }
