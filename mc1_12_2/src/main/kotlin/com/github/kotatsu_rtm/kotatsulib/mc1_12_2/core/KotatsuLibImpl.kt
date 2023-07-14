@@ -1,6 +1,7 @@
 package com.github.kotatsu_rtm.kotatsulib.mc1_12_2.core
 
 import com.github.kotatsu_rtm.kotatsulib.core.KotatsuLib
+import com.github.kotatsu_rtm.kotatsulib.mc1_12_2.api.gl.GLStateImpl
 import com.github.kotatsu_rtm.kotatsulib.mc1_12_2.api.shader.ShaderManagerImpl
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
@@ -30,7 +31,8 @@ class KotatsuLibImpl {
             )
         val clientOnlyEventListener =
             listOf(
-                ShaderManagerImpl
+                ShaderManagerImpl,
+                GLStateImpl
             )
 
         bothSideEventListener.forEach { MinecraftForge.EVENT_BUS.register(it) }
