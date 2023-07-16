@@ -24,7 +24,7 @@ class KotatsuLibImpl {
     }
 
     @EventHandler
-    fun onFMLInit(event: FMLInitializationEvent) {
+    fun onFMLInit(@Suppress("UNUSED_PARAMETER") event: FMLInitializationEvent) {
         val bothSideEventListener =
             listOf(
                 KotatsuLibConfigImpl
