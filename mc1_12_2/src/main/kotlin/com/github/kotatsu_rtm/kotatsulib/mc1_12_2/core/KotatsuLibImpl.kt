@@ -24,7 +24,7 @@ class KotatsuLibImpl {
     }
 
     @EventHandler
-    fun onFMLInit(@Suppress("UNUSED_PARAMETER") event: FMLInitializationEvent) {
+    fun onFMLInit(event: FMLInitializationEvent) {
         val bothSideEventListener =
             listOf(
                 KotatsuLibConfigImpl
@@ -32,7 +32,7 @@ class KotatsuLibImpl {
 
         bothSideEventListener.forEach { MinecraftForge.EVENT_BUS.register(it) }
 
-        registerClientOnlyEventListeners()
+        if (event.side.isClient) registerClientOnlyEventListeners()
 
         LogManager.getLogger().info(
             """
