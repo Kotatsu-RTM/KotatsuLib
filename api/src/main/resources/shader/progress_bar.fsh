@@ -13,8 +13,8 @@ layout (location = 1) in vec3 normal;
 
 out vec4 fragColor;
 
-const vec3 light0 = normalize(inverseModelMatrix * vec4(0.2, 1.0, -0.7, 0.0)).xyz;
-const vec3 light1 = normalize(inverseModelMatrix * vec4(-0.2, 1.0, 0.7, 0.0)).xyz;
+vec3 light0 = normalize(inverseModelMatrix * vec4(0.2, 1.0, -0.7, 0.0)).xyz;
+vec3 light1 = normalize(inverseModelMatrix * vec4(-0.2, 1.0, 0.7, 0.0)).xyz;
 const vec3 lightColor = vec3(0.6, 0.6, 0.6);
 
 void main() {
