@@ -29,14 +29,10 @@ class KotatsuLibImpl {
             listOf(
                 KotatsuLibConfigImpl
             )
-        val clientOnlyEventListener =
-            listOf(
-                ShaderManagerImpl,
-                GLStateImpl
-            )
 
         bothSideEventListener.forEach { MinecraftForge.EVENT_BUS.register(it) }
-        if (event.side.isClient) clientOnlyEventListener.forEach { MinecraftForge.EVENT_BUS.register(it) }
+
+        registerClientOnlyEventListeners()
 
         LogManager.getLogger().info(
             """
@@ -45,5 +41,15 @@ class KotatsuLibImpl {
             enableOpenGLDebugOutput: ${KotatsuLibConfigImpl.enableOpenGLDebugOutput.get().getOrThrow()}
         """.trimIndent()
         )
+    }
+
+    private fun registerClientOnlyEventListeners() {
+        val listeners =
+            listOf(
+                ShaderManagerImpl,
+                GLStateImpl
+            )
+
+        listeners.forEach { MinecraftForge.EVENT_BUS.register(it) }
     }
 }
