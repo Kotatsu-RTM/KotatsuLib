@@ -23,7 +23,7 @@ abstract class TileEntityRenderer<T : TileEntity> : RendererBase<T>, TileEntityS
         render(
             tileEntity,
             tickProgression,
-            modelMatrix, GLStateImpl.getModelView(), getProjectionMatrix(tileEntity),
+            modelMatrix, GLStateImpl.getView(), getProjectionMatrix(tileEntity),
             getLightMapCoordinate(tileEntity)
         )
     }

@@ -34,7 +34,7 @@ abstract class EntityRenderer<T : Entity>(renderManager: RenderManager) : Render
         render(
             entity,
             tickProgression,
-            modelMatrix, GLStateImpl.getModelView(), getProjectionMatrix(entity),
+            modelMatrix, GLStateImpl.getView(), getProjectionMatrix(entity),
             getLightMapCoordinate(entity)
         )
     }
