@@ -2,8 +2,8 @@ package com.github.kotatsu_rtm.kotatsulib.mc1_12_2.api.gl
 
 import com.github.kotatsu_rtm.kotatsulib.api.gl.GLState
 import net.minecraft.client.renderer.GLAllocation
+import net.minecraftforge.client.event.EntityViewRenderEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.common.gameevent.TickEvent
 import org.joml.Matrix4f
 import org.lwjgl.opengl.GL11
 import kotlin.properties.Delegates
@@ -18,9 +18,7 @@ object GLStateImpl : GLState {
     override fun getProjection() = projectionMatrix
 
     @SubscribeEvent
-    fun onStartRender(event: TickEvent.RenderTickEvent) {
-        if (event.phase != TickEvent.Phase.START) return
-
+    fun onSetupCamera(@Suppress("UNUSED_PARAMETER") event: EntityViewRenderEvent.CameraSetup) {
         viewMatrix =
             matrixBuffer.apply {
                 rewind()
