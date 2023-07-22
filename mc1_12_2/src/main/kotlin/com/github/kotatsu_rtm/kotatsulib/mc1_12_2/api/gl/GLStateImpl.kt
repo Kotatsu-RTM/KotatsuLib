@@ -17,8 +17,9 @@ object GLStateImpl : GLState {
 
     override fun getProjection() = projectionMatrix
 
+    @Suppress("unused")
     @SubscribeEvent
-    fun onSetupCamera(@Suppress("UNUSED_PARAMETER") event: EntityViewRenderEvent.CameraSetup) {
+    fun fogDensity(@Suppress("UNUSED_PARAMETER") event: EntityViewRenderEvent.FogDensity) {
         viewMatrix =
             matrixBuffer.apply {
                 rewind()
