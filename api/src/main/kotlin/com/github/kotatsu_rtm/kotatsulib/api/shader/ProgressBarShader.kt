@@ -134,8 +134,10 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
         callBuffer.clear()
     }
 
-    fun updateProjection(matrix: Matrix4f) =
-        Builder<Matrix4f, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>(Optional.of(matrix))
+    fun setViewAndProjectionMatrix(viewMatrix: Matrix4f, projectionMatrix: Matrix4f) =
+        Builder<Matrix4f, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>(
+            Optional.of(Matrix4f(viewMatrix)), Optional.of(Matrix4f(projectionMatrix))
+        )
 
     data class RenderData(
         val modelViewProjectionMatrix: Matrix4f,
@@ -151,12 +153,12 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
     ) : dev.siro256.forgelib.rtm_glsl.shader.Shader.RenderData
 
     data class Builder<A : Any, B : Any, C : Any, D : Any, E : Any, F : Any, G : Any, H : Any>(
+        private val viewMatrix: Optional<A> = Optional.empty(),
         private val projectionMatrix: Optional<A> = Optional.empty(),
         private val material: Optional<B> = Optional.empty(),
         private val vbo: Optional<C> = Optional.empty(),
         private val lightMapUV: Optional<D> = Optional.empty(),
-        private val modelViewMatrix: Optional<E> = Optional.empty(),
-        private val inverseModelMatrix: Optional<E> = Optional.empty(),
+        private val modelMatrix: Optional<E> = Optional.empty(),
         private val mostColor: Optional<F> = Optional.empty(),
         private val leastColor: Optional<F> = Optional.empty(),
         private val progression: Optional<G> = Optional.empty(),
@@ -165,7 +167,7 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
         companion object {
             fun Builder<Matrix4f, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>.setMaterial(id: Int) =
                 Builder<Matrix4f, Int, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing>(
-                    projectionMatrix,
+                    viewMatrix, projectionMatrix,
                     Optional.of(id)
                 )
 
@@ -173,7 +175,7 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 vbo: VBO.VertexNormalUV,
             ) =
                 Builder<Matrix4f, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing, Nothing>(
-                    projectionMatrix, material,
+                    viewMatrix, projectionMatrix, material,
                     Optional.of(vbo)
                 )
 
@@ -181,17 +183,16 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 uv: Vector2f,
             ) =
                 Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>(
-                    projectionMatrix, material, vbo,
+                    viewMatrix, projectionMatrix, material, vbo,
                     Optional.of(uv)
                 )
 
-            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>.setModelView(
-                model: Matrix4f,
-                view: Matrix4f,
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>.setModelMatrix(
+                modelMatrix: Matrix4f,
             ) =
                 Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing, Nothing>(
-                    projectionMatrix, material, vbo, lightMapUV,
-                    Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
+                    viewMatrix, projectionMatrix, material, vbo, lightMapUV,
+                    Optional.of(Matrix4f(modelMatrix))
                 )
 
             fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing, Nothing>.setColor(
@@ -199,7 +200,7 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 least: UInt,
             ) =
                 Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Nothing, Nothing>(
-                    projectionMatrix, material, vbo, lightMapUV, modelViewMatrix, inverseModelMatrix,
+                    viewMatrix, projectionMatrix, material, vbo, lightMapUV, modelMatrix,
                     Optional.of(most), Optional.of(least)
                 )
 
@@ -207,7 +208,7 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 progression: Float,
             ) =
                 Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>(
-                    projectionMatrix, material, vbo, lightMapUV, modelViewMatrix, inverseModelMatrix, mostColor, leastColor,
+                    viewMatrix, projectionMatrix, material, vbo, lightMapUV, modelMatrix, mostColor, leastColor,
                     Optional.of(progression)
                 )
 
@@ -215,11 +216,11 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 model: DrawGroup,
             ) =
                 Builder(
-                    projectionMatrix,
+                    viewMatrix, projectionMatrix,
                     material,
                     vbo,
                     lightMapUV,
-                    modelViewMatrix, inverseModelMatrix,
+                    modelMatrix,
                     mostColor, leastColor,
                     progression,
                     Optional.of(model)
@@ -231,13 +232,13 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 also {
                     val model = model.get()
                     val indicesInfo = model.getIndices(material.get()).getOrNull() ?: return@also
-                    val clonedProjectionMatrix = Matrix4f(projectionMatrix.get())
-                    val modelViewProjectionMatrix = clonedProjectionMatrix.mul(modelViewMatrix.get())
+                    val modelMatrix = modelMatrix.get()
+                    val modelViewProjectionMatrix = projectionMatrix.get().mul(viewMatrix.get()).mul(modelMatrix)
 
                     callBuffer.add(
                         RenderData(
                             modelViewProjectionMatrix,
-                            inverseModelMatrix.get(),
+                            modelMatrix,
                             lightMapUV.get(),
                             vbo.get(),
                             model.ibo,
@@ -255,7 +256,7 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 vbo: VBO.VertexNormalUV,
             ) =
                 Builder<Matrix4f, Int, VBO.VertexNormalUV, Nothing, Nothing, Nothing, Nothing, Nothing>(
-                    projectionMatrix, material,
+                    viewMatrix, projectionMatrix, material,
                     Optional.of(vbo)
                 )
 
@@ -264,18 +265,17 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 uv: Vector2f,
             ) =
                 Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>(
-                    projectionMatrix, material, vbo,
+                    viewMatrix, projectionMatrix, material, vbo,
                     Optional.of(uv)
                 )
 
-            @JvmName("setModelView2")
-            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.setModelView(
-                model: Matrix4f,
-                view: Matrix4f,
+            @JvmName("setModelMatrix2")
+            fun Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, DrawGroup>.setModelMatrix(
+                modelMatrix: Matrix4f,
             ) =
                 Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing, Nothing>(
-                    projectionMatrix, material, vbo, lightMapUV,
-                    Optional.of(Matrix4f(view).mul(model)), Optional.of(Matrix4f(model).invert())
+                    viewMatrix, projectionMatrix, material, vbo, lightMapUV,
+                    Optional.of(Matrix4f(modelMatrix))
                 )
 
             @JvmName("setColor2")
@@ -284,7 +284,7 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 least: UInt,
             ) =
                 Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Nothing, Nothing>(
-                    projectionMatrix, material, vbo, lightMapUV, modelViewMatrix, inverseModelMatrix,
+                    viewMatrix, projectionMatrix, material, vbo, lightMapUV, modelMatrix,
                     Optional.of(most), Optional.of(least)
                 )
 
@@ -294,7 +294,7 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 progression: Float,
             ) =
                 Builder<Matrix4f, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, UInt, Float, Nothing>(
-                    projectionMatrix, material, vbo, lightMapUV, modelViewMatrix, inverseModelMatrix, mostColor, leastColor,
+                    viewMatrix, projectionMatrix, material, vbo, lightMapUV, modelMatrix, mostColor, leastColor,
                     Optional.of(progression)
                 )
 
@@ -303,11 +303,11 @@ object ProgressBarShader : Shader<ProgressBarShader.RenderData>(
                 model: DrawGroup,
             ) =
                 Builder(
-                    projectionMatrix,
+                    viewMatrix, projectionMatrix,
                     material,
                     vbo,
                     lightMapUV,
-                    modelViewMatrix, inverseModelMatrix,
+                    modelMatrix,
                     mostColor, leastColor,
                     progression,
                     Optional.of(model)
