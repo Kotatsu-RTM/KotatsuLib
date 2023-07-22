@@ -3,7 +3,7 @@ import net.minecraftforge.gradle.userdev.UserDevExtension
 import org.apache.tools.ant.filters.ReplaceTokens
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.toLowerCaseAsciiOnly
 
-group = rootProject.group.toString() + ".core"
+group = rootProject.group.toString() + ".mc1_12_2"
 
 buildscript {
     dependencies {
