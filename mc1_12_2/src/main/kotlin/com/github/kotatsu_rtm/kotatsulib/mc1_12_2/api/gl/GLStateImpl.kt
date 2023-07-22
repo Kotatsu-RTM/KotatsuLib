@@ -17,21 +17,27 @@ object GLStateImpl : GLState {
 
     override fun getProjection() = projectionMatrix
 
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun getModelViewMatrixFromGL() =
+        matrixBuffer.apply {
+            rewind()
+            GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, this)
+            rewind()
+        }.let { Matrix4f(it) }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun getProjectionMatrixFromGL() =
+        matrixBuffer.apply {
+            rewind()
+            GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, this)
+            rewind()
+        }.let { Matrix4f(it) }
+
     @Suppress("unused")
     @SubscribeEvent
     fun fogDensity(@Suppress("UNUSED_PARAMETER") event: EntityViewRenderEvent.FogDensity) {
-        viewMatrix =
-            matrixBuffer.apply {
-                rewind()
-                GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, this)
-                rewind()
-            }.let { Matrix4f(it) }
+        viewMatrix = getModelViewMatrixFromGL()
 
-        projectionMatrix =
-            matrixBuffer.apply {
-                rewind()
-                GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, this)
-                rewind()
-            }.let { Matrix4f(it) }
+        projectionMatrix = getProjectionMatrixFromGL()
     }
 }
