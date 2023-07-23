@@ -209,7 +209,7 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
             fun Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing>.setModelMatrix(
                 modelMatrix: Matrix4f,
             ) =
-                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, Nothing>(
+                Builder<Matrix4f, Int, Int, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing>(
                     viewMatrix, projectionMatrix, material, textureName, vbo, lightMapUV,
                     Optional.of(Matrix4f(modelMatrix))
                 )
