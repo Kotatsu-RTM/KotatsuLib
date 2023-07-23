@@ -190,7 +190,7 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Nothing, Nothing, Nothing, Nothing>.setModelMatrix(
                 modelMatrix: Matrix4f,
             ) =
-                Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, Matrix4f, Nothing, Nothing>(
+                Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, Nothing, Nothing, Nothing>(
                     viewMatrix, projectionMatrix, vbo, lightMapUV,
                     Optional.of(Matrix4f(modelMatrix))
                 )
