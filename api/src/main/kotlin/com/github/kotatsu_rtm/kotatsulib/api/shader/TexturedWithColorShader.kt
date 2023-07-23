@@ -239,7 +239,8 @@ object TexturedWithColorShader : Shader<TexturedWithColorShader.RenderData>(
                     val model = model.get()
                     val indicesInfo = model.getIndices(material.get()).getOrNull() ?: return@also
                     val modelMatrix = modelMatrix.get()
-                    val modelViewProjectionMatrix = projectionMatrix.get().mul(viewMatrix.get()).mul(modelMatrix)
+                    val modelViewProjectionMatrix =
+                        Matrix4f(projectionMatrix.get()).mul(Matrix4f(viewMatrix.get())).mul(Matrix4f(modelMatrix))
 
                     callBuffer.add(
                         RenderData(

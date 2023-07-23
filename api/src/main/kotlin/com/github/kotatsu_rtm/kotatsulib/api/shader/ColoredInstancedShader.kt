@@ -216,7 +216,8 @@ object ColoredInstancedShader : Shader<ColoredInstancedShader.RenderData>(
             fun Builder<Matrix4f, VBO.VertexNormalUV, Vector2f, Matrix4f, IndexBufferObject, IboInfo, List<InstanceData>>.render() =
                 also {
                     val modelMatrix = modelMatrix.get()
-                    val modelViewProjectionMatrix = projectionMatrix.get().mul(viewMatrix.get()).mul(modelMatrix)
+                    val modelViewProjectionMatrix =
+                        Matrix4f(projectionMatrix.get()).mul(Matrix4f(viewMatrix.get())).mul(Matrix4f(modelMatrix))
 
                     callBuffer.add(
                         RenderData(
