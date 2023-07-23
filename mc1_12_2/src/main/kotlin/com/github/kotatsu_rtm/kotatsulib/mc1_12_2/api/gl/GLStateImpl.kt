@@ -13,9 +13,9 @@ object GLStateImpl : GLState {
     private var projectionMatrix by Delegates.notNull<Matrix4f>()
     private val matrixBuffer = GLAllocation.createDirectFloatBuffer(16)
 
-    override fun getView() = viewMatrix
+    override fun getView() = Matrix4f(viewMatrix)
 
-    override fun getProjection() = projectionMatrix
+    override fun getProjection() = Matrix4f(projectionMatrix)
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun getModelViewMatrixFromGL() =
