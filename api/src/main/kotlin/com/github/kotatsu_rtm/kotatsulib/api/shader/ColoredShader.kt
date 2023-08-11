@@ -263,7 +263,8 @@ object ColoredShader : Shader<ColoredShader.RenderData>(
                     val drawGroup = drawGroupOrIndices.get()
                     val indicesInfo = drawGroup.getIndices(material.get()).getOrNull() ?: return@also
                     val modelMatrix = Matrix4f(modelMatrix.get())
-                    val modelViewProjectionMatrix = projectionMatrix.get().mul(viewMatrix.get()).mul(modelMatrix)
+                    val modelViewProjectionMatrix =
+                        Matrix4f(projectionMatrix.get()).mul(viewMatrix.get()).mul(modelMatrix)
 
                     callBuffer.add(
                         RenderData.Buffered(
