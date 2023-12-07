@@ -155,8 +155,8 @@ allprojects {
                     }
 
                 credentials {
-                    username = System.getenv("NexusUsername")
-                    password = System.getenv("NexusPassword")
+                    username = System.getenv("RepositoryUsername")
+                    password = System.getenv("RepositoryPassword")
                 }
             }
         }
